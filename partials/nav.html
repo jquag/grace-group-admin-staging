@@ -1,0 +1,28 @@
+<nav ng-show="$root.user" class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class="navbar-brand" ng-class="{ active: $ctrl.isProfilePage() }" ng-click="$root.$state.go('users.home')">{{$root.user.shortName()}} | {{$root.user.roleLabel()}} <span ng-show="$root.user.admin" class="text-info glyphicon glyphicon-certificate" aria-hidden="true"></span></div>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="app-navbar-collapse">
+            <ul id="main-nav" class="nav navbar-nav">
+                <li id="nav-item-users" ng-class="{ active: $root.$state.includes('users') && !$ctrl.isProfilePage() }"><a ui-sref="users.index">Users</a></li>
+                <li id="nav-item-groups" ng-class="{ active: $root.$state.includes('groups') }"><a ui-sref="groups.index">Groups</a></li>
+                <li ng-show="$root.user.admin" id="nav-item-approvals" ng-class="{ active: $root.$state.includes('approvals') }"><a ui-sref="approvals.index">Approvals</a></li>
+                <!--<li id="nav-item-meetings"><a href="#">Meetings</a></li>-->
+                <!--<li id="nav-item-reporting"><a href="#">Reporting</a></li>-->
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="" ng-click="$ctrl.logout()">Logout</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>

@@ -1,0 +1,115 @@
+<div class="panel panel-primary" ng-show="$ctrl.showSearch === true || $ctrl.showSearch === undefined">
+    <div class="panel-heading">
+        <h3 class="panel-title" ng-click="$ctrl.showCriteria = !$ctrl.showCriteria" data-toggle="collapse" data-target="#search-container">
+            <span ng-hide="$ctrl.showCriteria" class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+            <span ng-show="$ctrl.showCriteria" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+            Search Criteria
+        </h3>
+    </div>
+    <div id="search-container" class="panel-collapse collapse">
+        <div class="panel-body">
+            <form class="form" ng-submit="$ctrl.search()" promise-btn>
+                <div class="form-group form-inline">
+                    <label>Category</label>
+                    <select class="form-control" ng-model="$ctrl.searchCriteria.category">
+                        <option value="">All</option>
+                        <option value="invalid" disabled>---</option>
+                        <option value="ACTIVITY_GROUP">Activity group</option>
+                        <option value="CLASS">Class</option>
+                        <option value="COMMUNITY_GROUP">Community group</option>
+                        <option value="PRAYER_GROUP">Prayer group</option>
+                        <option value="SERVING_GROUP">Serving group</option>
+                        <option value="SUPPORT_RECOVERY_GROUP">Support recovery group</option>
+                    </select>
+                    <label>Keyword</label>
+                    <input type="text" class="form-control" ng-model="$ctrl.searchCriteria.keyWord">
+                </div>
+                <div class="form-group form-inline">
+                    <label>Day of the week</label>
+                    <select class="form-control" name="gDay" ng-model="$ctrl.searchCriteria.dayOfWeek">
+                        <option value="">All</option>
+                        <option value="invalid" disabled>---</option>
+                        <option value="SUNDAY">Sunday</option>
+                        <option value="MONDAY">Monday</option>
+                        <option value="TUESDAY">Tuesday</option>
+                        <option value="WEDNESDAY">Wednesday</option>
+                        <option value="THURSDAY">Thursday</option>
+                        <option value="FRIDAY">Friday</option>
+                        <option value="SATURDAY">Saturday</option>
+                    </select>
+                    <label>Start Time</label>
+                    <input type="time" name="gStartTime" class="form-control" ng-model="$ctrl.searchCriteria.startTimeDate" placeholder="HH:mm"/>
+                </div>
+                <div class="form-group form-inline">
+                    <label>Gender</label>
+                    <select class="form-control" ng-model="$ctrl.searchCriteria.gender">
+                        <option value="">All</option>
+                        <option value="invalid" disabled>---</option>
+                        <option value="MALE">Male</option>
+                        <option value="FEMALE">Female</option>
+                        <option value="BOTH">Both Male and Female</option>
+                    </select>
+                    <label>Status</label>
+                    <select class="form-control" ng-model="$ctrl.searchCriteria.status">
+                        <option value="">All</option>
+                        <option value="invalid" disabled>---</option>
+                        <option value="SINGLES">Singles</option>
+                        <option value="MARRIEDS">Married</option>
+                        <option value="SINGLES_AND_COUPLES">Singles and couples</option>
+                    </select>
+                    <label>Age</label>
+                    <select class="form-control" ng-model="$ctrl.ageType">
+                        <option value="ALL">All</option>
+                        <option value="SPECIFIC">Specific</option>
+                    </select>
+                    <input ng-show="$ctrl.ageType == 'SPECIFIC'" type="number" placeholder="age" class="form-control small" ng-model="$ctrl.searchCriteria.age">
+                </div>
+                <div class="form-group form-inline">
+                    <label>Childcare</label>
+                    <select class="form-control" ng-model="$ctrl.searchCriteria.childcare">
+                        <option value="">All</option>
+                        <option value="invalid" disabled>---</option>
+                        <option value="CHILDCARE_PROVIDED">Provided</option>
+                        <option value="NO_CHILDREN">No children</option>
+                        <option value="CHILDREN_WELCOME">Children welcome</option>
+                    </select>
+                </div>
+                <div class="form-group form-inline">
+                    <label>
+                        <input type="checkbox" ng-model="$ctrl.searchCriteria.onCampus">
+                        On church campus
+                    </label>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-info btn-sm" aria-label="search" ng-disabled="$ctrl.loading">Search</button>
+                    <a type="button" class="btn btn-default btn-sm" aria-label="clear" ng-click="$ctrl.clear()" ng-disabled="$ctrl.loading">Clear</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="panel-footer">
+        <div ng-show="$ctrl.isFiltered">Results: <span class="label label-warning">Filtered</span> <a ng-click="$ctrl.clear()">Clear</a></div>
+        <div ng-hide="$ctrl.isFiltered">Results: <span class="label label-primary">All</span></div>
+    </div>
+</div>
+
+<div>
+    <label>Total count:</label>
+    <span class="label" ng-class="{'label-primary': !$ctrl.isFiltered, 'label-warning': $ctrl.isFiltered}">{{$ctrl.totalCount}}</span>
+</div>
+
+<div ng-hide="$ctrl.loading">
+    <gg-group ng-repeat="group in $ctrl.groups" group="group"
+          options="{{$root.authorizer.groupPrivilegesString($root.user, group)}}"
+          on-edit="$ctrl.onEditGroup({group: group})"
+          on-members="$ctrl.onGroupMembers({group: group})"
+          on-delete="$ctrl.deleteGroup(group)"></gg-group>
+
+    <p ng-show="$ctrl.totalCount == 0">No groups found.</p>
+    <p class="text-danger" ng-show="$ctrl.totalCount > $ctrl.groups.length">
+        <button class="btn btn-default" ng-click="$ctrl.showMore()" promise-btn>Show {{$ctrl.showMoreCount()}} more</button>
+    </p>
+</div>
+<div ng-show="$ctrl.loading">
+    <h4>loading...</h4>
+</div>

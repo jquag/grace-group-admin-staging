@@ -1,0 +1,12 @@
+<div scroll-pos="keep">
+    <div><a ng-click="$root.goToGroupMemberReturnToState()"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> back to {{$ctrl.backToLabel()}}</a></div>
+    <div ng-show="$ctrl.group && $ctrl.members">
+        <h3>Members <span class="small">{{$ctrl.group.name}}</span></h3>
+        <p>
+            <button type="button" class="btn btn-info btn-sm" ng-click="$state.go('groups.members.select', {id: $ctrl.group.id})">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Member
+            </button>
+        </p>
+        <gg-user ng-repeat="user in $ctrl.members" user="user" on-remove="$ctrl.removeMember(user)" show-remove="true" hide-role></gg-user>
+    </div>
+</div>

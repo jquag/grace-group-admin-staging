@@ -1,0 +1,8 @@
+<div scroll-pos="top">
+    <h3>Create group</h3>
+    <gg-group-form group="$ctrl.group"
+                   leaders="$ctrl.leaders"
+                   is-new="true"
+                   on-cancel="$root.goToGroupEditReturnToState()"
+                   on-save="$ctrl.createGroup()"></gg-group-form>
+</div>

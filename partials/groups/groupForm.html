@@ -1,0 +1,369 @@
+<div class="row" ng-show="$ctrl.group">
+    <div class="col-md-7 col-lg-6 col-sm-9">
+        <div class="well">
+            <form name="form" ng-submit="$ctrl.save(form)" novalidate promise-btn>
+                <div class="form-group" ng-class="{'has-error': form.gName.$invalid}">
+                    <label>Group name *</label>
+                    <input type="text" name="gName" class="form-control" ng-model="$ctrl.group.name" required/>
+                    <div class="text-danger" ng-show="form.$submitted || form.gName.$touched">
+                        <div ng-show="form.gName.$error.required">Required</div>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{'has-error': form.gCategory.$invalid}">
+                    <label>Category *</label>
+                    <select class="form-control" name="gCategory" ng-model="$ctrl.group.category" required>
+                        <option value=""></option>
+                        <option value="ACTIVITY_GROUP">Activity group</option>
+                        <option value="CLASS">Class</option>
+                        <option value="COMMUNITY_GROUP">Community group</option>
+                        <option value="PRAYER_GROUP">Prayer group</option>
+                        <option value="SERVING_GROUP">Serving group</option>
+                        <option value="SUPPORT_RECOVERY_GROUP">Support recovery group</option>
+                    </select>
+                    <div class="text-danger" ng-show="form.$submitted || form.gCategory.$touched">
+                        <div ng-show="form.gCategory.$error.required">Required</div>
+                    </div>
+                </div>
+                <div ng-class="{'has-error': form.gLeader.$invalid}" class="form-group">
+                    <label>Leader *</label>
+                    <select class="form-control" name="gLeader" ng-model="$ctrl.group.leaderId" ng-options="leader.id as leader.fullName() for leader in $ctrl.leaders" required ng-disabled="!$root.authorizer.userCanChangeGroupLeader($root.user)">
+                        <option value=""></option>
+                    </select>
+                    <div class="text-danger" ng-show="form.$submitted || form.gLeader.$touched">
+                        <div ng-show="form.gLeader.$error.required">Required</div>
+                    </div>
+                </div>
+                <div ng-class="{'has-error': form.gSecondaryLeader.$invalid}" class="form-group">
+                    <label>Secondary Leader</label>
+                    <select class="form-control" name="gSecondaryLeader" ng-model="$ctrl.group.secondaryLeaderId"
+                            not-equal-to="$ctrl.group.leaderId"
+                            ng-options="leader.id as leader.fullName() for leader in $ctrl.leaders">
+                        <option value=""></option>
+                    </select>
+                    <div class="text-danger" ng-show="form.$submitted || form.gSecondaryLeader.$touched">
+                        <div ng-show="form.gSecondaryLeader.$error.notEqualTo">Can't be the same as leader</div>
+                    </div>
+                </div>
+                <!-- schedule -->
+                <div class="panel panel-info">
+                    <div id="schedule" class="panel-heading">Schedule</div>
+                    <div class="panel-body">
+                        <div class="form-group" ng-class="{'has-error': form.gDay.$invalid}">
+                            <label>Day of the week *</label>
+                            <select class="form-control" name="gDay" ng-model="$ctrl.group.schedule.dayOfWeek" required>
+                                <option value=""></option>
+                                <option value="SUNDAY">Sunday</option>
+                                <option value="MONDAY">Monday</option>
+                                <option value="TUESDAY">Tuesday</option>
+                                <option value="WEDNESDAY">Wednesday</option>
+                                <option value="THURSDAY">Thursday</option>
+                                <option value="FRIDAY">Friday</option>
+                                <option value="SATURDAY">Saturday</option>
+                            </select>
+                            <div class="text-danger" ng-show="form.$submitted || form.gDay.$touched">
+                                <div ng-show="form.gDay.$error.required">Required</div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-class="{'has-error': form.gFrequency.$invalid}">
+                            <label>Frequency of meetings *</label>
+                            <select class="form-control" ng-model="$ctrl.group.schedule.frequency" name="gFrequency" required>
+                                <option value=""></option>
+                                <option value="WEEKLY">Weekly</option>
+                                <option value="EVERY_TWO_WEEKS">Every other week</option>
+                                <option value="BI_MONTHLY_FIRST_THIRD">Every 1st and 3rd week</option>
+                                <option value="BI_MONTHLY_SECOND_FOURTH">Every 2nd and 4th week</option>
+                                <option value="TRI_MONTHLY">Every 1st, 3rd, and 5th week</option>
+                                <option value="MONTHLY_FIRST">Monthly on the 1st week</option>
+                                <option value="MONTHLY_SECOND">Monthly on the 2nd week</option>
+                                <option value="MONTHLY_THIRD">Monthly on the 3rd week</option>
+                                <option value="MONTHLY_FOURTH">Monthly on the 4th week</option>
+                                <option value="AS_NEEDED">As needed</option>
+                            </select>
+                            <div class="text-danger" ng-show="form.$submitted || form.gFrequency.$touched">
+                                <div ng-show="form.gFrequency.$error.required">Required</div>
+                            </div>
+                        </div>
+                        <div ng-hide="$ctrl.group.schedule.frequency == 'AS_NEEDED'">
+                            <div class="form-group" ng-class="{'has-error': form.gStartTime.$invalid}">
+                                <label>Start Time *</label>
+                                <input type="time" name="gStartTime" class="form-control" ng-model="$ctrl.group.schedule.startTimeDate" ng-required="$ctrl.requireScheduleTime()" placeholder="HH:mm"/>
+                                <div class="text-danger" ng-show="form.$submitted || form.gStartTime.$touched">
+                                    <div ng-show="form.gStartTime.$error.required">Required</div>
+                                    <div ng-show="form.gStartTime.$error.time">Invalid format</div>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-class="{'has-error': form.gEndTime.$invalid}">
+                                <label>End Time *</label>
+                                <input type="time" name="gEndTime" class="form-control" ng-model="$ctrl.group.schedule.endTimeDate"
+                                       time-after="$ctrl.group.schedule.startTimeDate"
+                                       ng-required="$ctrl.requireScheduleTime()" placeholder="HH:mm"/>
+                                <div class="text-danger" ng-show="form.$submitted || form.gEndTime.$touched">
+                                    <div ng-show="form.gEndTime.$error.required">Required</div>
+                                    <div ng-show="form.gEndTime.$error.time">Invalid format</div>
+                                    <div ng-show="form.gEndTime.$error.timeAfter">Must be after start time</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-class="{'has-error': form.gStartDate.$invalid}">
+                            <label>Start Date *</label>
+                            <input type="date" name="gStartDate" class="form-control" ng-model="$ctrl.group.schedule.startDateDate" required placeholder="yyyy-MM-dd"/>
+                            <div class="text-danger" ng-show="form.$submitted || form.gStartDate.$touched">
+                                <div ng-show="form.gStartDate.$error.required">Required</div>
+                                <div ng-show="form.gStartDate.$error.date">Invalid format</div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-class="{'has-error': form.gEndDate.$invalid}">
+                            <label>End Date *</label>
+                            <input type="date" name="gEndDate" class="form-control" ng-model="$ctrl.group.schedule.endDateDate"
+                                   time-after="$ctrl.group.schedule.startDateDate"
+                                   required placeholder="yyyy-MM-dd"/>
+                            <div class="text-danger" ng-show="form.$submitted || form.gEndDate.$touched">
+                                <div ng-show="form.gEndDate.$error.required">Required</div>
+                                <div ng-show="form.gEndDate.$error.date">Invalid format</div>
+                                <div ng-show="form.gEndDate.$error.timeAfter">Must be after start date</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- address -->
+                <div class="panel panel-info">
+                    <div class="panel-heading">Location *</div>
+                    <div class="panel-body">
+                        <div class="form-group" ng-class="{'has-error': form.gLocationType.$invalid}">
+                            <select class="form-control" name="gLocationType" ng-model="$ctrl.group.locationType" required>
+                                <option value="GRACE_NEED_ROOM">Grace Church - need a room</option>
+                                <option value="GRACE_HAVE_ROOM">Grace Church - room assigned</option>
+                                <option value="OTHER">Off Campus</option>
+                            </select>
+                            <div class="text-danger" ng-show="form.$submitted || form.gLocationType.$touched">
+                                <div ng-show="form.gLocationType.$error.required">Required</div>
+                            </div>
+                        </div>
+                        <div ng-show="$ctrl.group.locationType == 'GRACE_HAVE_ROOM'" class="form-group" ng-class="{'has-error': form.gRoom.$invalid}">
+                            <label>Room *</label>
+                            <input type="text" name="gRoom" class="form-control" ng-model="$ctrl.group.address.room" ng-required="$ctrl.group.locationType == 'GRACE_HAVE_ROOM'"/>
+                            <div class="text-danger" ng-show="form.$submitted || form.gRoom.$touched">
+                                <div ng-show="form.gRoom.$error.required">Required</div>
+                            </div>
+                        </div>
+
+                        <div ng-show="$ctrl.group.locationType != 'OTHER'">
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" ng-model="$ctrl.group.roomRequest.needAv">
+                                    need AV
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" ng-model="$ctrl.group.roomRequest.needTv">
+                                    need TV/DVD
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" ng-model="$ctrl.group.roomRequest.needTables">
+                                    need tables
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>Other room requirements</label>
+                                <textarea class="form-control" rows="3" ng-model="$ctrl.group.roomRequest.additionalRequirements"></textarea>
+                            </div>
+                        </div>
+
+                        <div ng-show="$ctrl.group.locationType == 'OTHER'">
+                            <div class="form-group" ng-class="{'has-error': form.gAddressLine1.$invalid}">
+                                <label>Address Line 1 *</label>
+                                <input type="text" name="gAddressLine1" class="form-control" ng-model="$ctrl.group.address.line1" ng-required="$ctrl.group.locationType == 'OTHER'"/>
+                                <div class="text-danger" ng-show="form.$submitted || form.gAddressLine1.$touched">
+                                    <div ng-show="form.gAddressLine1.$error.required">Required</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Address Line 2</label>
+                                <input type="text" name="gAddressLine2" class="form-control" ng-model="$ctrl.group.address.line2"/>
+                            </div>
+                            <div class="form-group" ng-class="{'has-error': form.gCity.$invalid}">
+                                <label>City *</label>
+                                <input type="text" name="gCity" class="form-control" ng-model="$ctrl.group.address.city" ng-required="$ctrl.group.locationType == 'OTHER'"/>
+                                <div class="text-danger" ng-show="form.$submitted || form.gCity.$touched">
+                                    <div ng-show="form.gCity.$error.required">Required</div>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-class="{'has-error': form.gState.$invalid}">
+                                <label>State *</label>
+                                <select class="form-control" name="gState" ng-model="$ctrl.group.address.state" ng-required="$ctrl.group.locationType == 'OTHER'">
+                                    <option value=""></option>
+                                    <option value="AL">AL</option>
+                                    <option value="AK">AK</option>
+                                    <option value="AZ">AZ</option>
+                                    <option value="AR">AR</option>
+                                    <option value="CA">CA</option>
+                                    <option value="CO">CO</option>
+                                    <option value="CT">CT</option>
+                                    <option value="DE">DE</option>
+                                    <option value="FL">FL</option>
+                                    <option value="GA">GA</option>
+                                    <option value="HI">HI</option>
+                                    <option value="ID">ID</option>
+                                    <option value="IL">IL</option>
+                                    <option value="IN">IN</option>
+                                    <option value="IA">IA</option>
+                                    <option value="KS">KS</option>
+                                    <option value="KY">KY</option>
+                                    <option value="LA">LA</option>
+                                    <option value="ME">ME</option>
+                                    <option value="MD">MD</option>
+                                    <option value="MA">MA</option>
+                                    <option value="MI">MI</option>
+                                    <option value="MN">MN</option>
+                                    <option value="MS">MS</option>
+                                    <option value="MO">MO</option>
+                                    <option value="MT">MT</option>
+                                    <option value="NE">NE</option>
+                                    <option value="NV">NV</option>
+                                    <option value="NH">NH</option>
+                                    <option value="NJ">NJ</option>
+                                    <option value="NM">NM</option>
+                                    <option value="NY">NY</option>
+                                    <option value="NC">NC</option>
+                                    <option value="ND">ND</option>
+                                    <option value="OH">OH</option>
+                                    <option value="OK">OK</option>
+                                    <option value="OR">OR</option>
+                                    <option value="PA">PA</option>
+                                    <option value="RI">RI</option>
+                                    <option value="SC">SC</option>
+                                    <option value="SD">SD</option>
+                                    <option value="TN">TN</option>
+                                    <option value="TX">TX</option>
+                                    <option value="UT">UT</option>
+                                    <option value="VT">VT</option>
+                                    <option value="VA">VA</option>
+                                    <option value="WA">WA</option>
+                                    <option value="WV">WV</option>
+                                    <option value="WI">WI</option>
+                                    <option value="WY">WY</option>
+                                    <option value="AS">AS</option>
+                                    <option value="DC">DC</option>
+                                    <option value="FM">FM</option>
+                                    <option value="GU">GU</option>
+                                    <option value="MH">MH</option>
+                                    <option value="MP">MP</option>
+                                    <option value="PW">PW</option>
+                                    <option value="PR">PR</option>
+                                    <option value="VI">VI</option>
+                                    <option value="AA">AA</option>
+                                    <option value="AE">AE</option>
+                                    <option value="AP">AP</option>
+                                </select>
+                                <div class="text-danger" ng-show="form.$submitted || form.gState.$touched">
+                                    <div ng-show="form.gState.$error.required">Required</div>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-class="{'has-error': form.gZip.$invalid}">
+                                <label>Zip *</label>
+                                <input type="text" name="gZip" class="form-control" ng-model="$ctrl.group.address.zip" ng-required="$ctrl.group.locationType == 'OTHER'"/>
+                                <div class="text-danger" ng-show="form.$submitted || form.gZip.$touched">
+                                    <div ng-show="form.gZip.$error.required">Required</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{'has-error': form.gStudy.$invalid}">
+                    <label>Description *</label>
+                    <textarea name="gStudy" rows="5" maxlength="375" class="form-control" ng-model="$ctrl.group.study" ng-trim="false" required></textarea>
+                    <span class="small text-muted">Characters remaining: {{375 - $ctrl.group.study.length}}</span>
+                    <div class="text-danger" ng-show="form.$submitted || form.gStudy.$touched">
+                        <div ng-show="form.gStudy.$error.required">Required</div>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{'has-error': form.gCapacity.$invalid}">
+                    <label>Capacity *</label>
+                    <p class="small">What is the maximum number of members for this group.</p>
+                    <input type="number" name="gCapacity" class="form-control" ng-model="$ctrl.group.capacity" required/>
+                    <div class="text-danger" ng-show="form.$submitted || form.gCapacity.$touched">
+                        <div ng-show="form.gCapacity.$error.required">Required</div>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{'has-error': form.gChildcareType.$invalid}">
+                    <label>Childcare *</label>
+                    <select class="form-control" ng-model="$ctrl.group.childcareType" name="gChildcareType" required>
+                        <option value=""></option>
+                        <option value="CHILDCARE_PROVIDED">Childcare provided</option>
+                        <option value="CHILDREN_WELCOME">Children welcome</option>
+                        <option value="NO_CHILDREN">No children</option>
+                    </select>
+                    <div class="text-danger" ng-show="form.$submitted || form.gChildcareType.$touched">
+                        <div ng-show="form.gChildcareType.$error.required">Required</div>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{'has-error': form.gGenderPreference.$invalid}">
+                    <label>Gender preference *</label>
+                    <select class="form-control" ng-model="$ctrl.group.genderPreference" name="gGenderPreference" required>
+                        <option value=""></option>
+                        <option value="FEMALE">Female</option>
+                        <option value="MALE">Male</option>
+                        <option value="BOTH">Both</option>
+                    </select>
+                    <div class="text-danger" ng-show="form.$submitted || form.gGenderPreference.$touched">
+                        <div ng-show="form.gGenderPreference.$error.required">Required</div>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{'has-error': form.gMaritalStatus.$invalid}">
+                    <label>Status *</label>
+                    <select class="form-control" ng-model="$ctrl.group.maritalStatus" name="gMaritalStatus" required>
+                        <option value=""></option>
+                        <option value="SINGLES">Single</option>
+                        <option value="MARRIEDS">Married</option>
+                        <option value="MARRIED_AND_COUPLES">Married and couples</option>
+                        <option value="SINGLES_AND_COUPLES">Mixed single &amp; married</option>
+                    </select>
+                    <div class="text-danger" ng-show="form.$submitted || form.gMaritalStatus.$touched">
+                        <div ng-show="form.gMaritalStatus.$error.required">Required</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" ng-model="$ctrl.group.studentMinistry">
+                        Student ministry
+                    </label>
+                </div>
+                <div ng-hide="$ctrl.group.studentMinistry">
+                    <div class="form-group">
+                        <label>Min age (leave blank for all adults)</label>
+                        <input type="number" name="gMinAge" class="form-control" ng-model="$ctrl.group.minAge" min="18"/>
+                        <div class="text-danger" ng-show="form.$submitted || form.gMinAge.$touched">
+                            <div ng-show="form.gMinAge.$error.min">Must be 18 years or more</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Max age (leave blank for all adults)</label>
+                        <input type="number" name="gMaxAge" class="form-control" ng-model="$ctrl.group.maxAge"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Special interest</label>
+                    <p class="small">If you are targeting a specific area of interest enter it here.</p>
+                    <input type="text" name="gSpecialInterest" class="form-control" ng-model="$ctrl.group.specialInterest"/>
+                </div>
+                <div class="form-group">
+                    <label>Meeting instructions</label>
+                    <p class="small">If you have any meeting instructions (e.g. fees, what to bring, where to park, etc.) enter them here.</p>
+                    <textarea class="form-control" rows="3" ng-model="$ctrl.group.meetingInstructions"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" ng-model="$ctrl.group.published">
+                        Advertise group
+                    </label>
+                </div>
+
+                <button type="button" class="btn btn-default" ng-click="$ctrl.onCancel()">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+        </div>
+    </div>
+</div>

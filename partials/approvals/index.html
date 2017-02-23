@@ -1,0 +1,29 @@
+<div scroll-pos="keep">
+    <h3>Groups Pending Approval</h3>
+    <p ng-show="$ctrl.groups.length == 0">None</p>
+    <div ng-repeat="group in $ctrl.groups">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h4>{{group.name}}</h4>
+                <p>
+                    <span ng-show="group.status == 'CREATION_PENDING'" class="label label-success">New Group</span>
+                    <span ng-show="group.status == 'UPDATE_PENDING' && group.studyPending" class="label label-info">Description Change</span>
+                    <span ng-show="group.status == 'UPDATE_PENDING' && group.namePending" class="label label-default">Name Change</span>
+                    <span ng-show="group.status == 'UPDATE_PENDING' && group.locationChanged" class="label label-danger">Location Change</span>
+                    <span ng-show="group.status == 'UPDATE_PENDING' && !group.locationChanged && group.roomRequestChanged" class="label label-danger">Room Request Change</span>
+                    <span ng-show="group.status == 'UPDATE_PENDING' && group.scheduleChanged" class="label label-warning">Schedule Change</span>
+                </p>
+                <div>
+                    <span class="text-info small">Description:</span>
+                    <span ng-show="group.study">{{group.study}}</span>
+                </div>
+                <div><span class="text-info small">Leader(s):</span> <span>{{$ctrl.leaderDisplay(group)}}</span></div>
+                <div><span class="text-info small">Location:</span> <span>{{group.locationType | enumToLabel}}</span></div>
+                <div><span class="text-info small">Meetings:</span> <span>{{$ctrl.scheduleDisplay(group.schedule)}}</span></div>
+                <div><span class="text-info small">Time:</span> <span>{{$ctrl.timeDisplay(group.schedule)}}</span></div>
+                <br/>
+                <button class="btn btn-primary" ng-click="$state.go('approvals.review', {id: group.id})">Review</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+<div scroll-pos="keep">
+    <a ng-hide="$ctrl.isRootUser()" ui-sref="users.index"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> All users</a>
+    <h2 ng-show="$ctrl.isRootUser()">Welcome</h2>
+    <h2 ng-hide="$ctrl.isRootUser()">User Details</h2>
+    <gg-user highlight user="$ctrl.user" on-edit="$state.go('users.edit', {id: $ctrl.user.id})" show-edit="$root.authorizer.userCanEditUser($root.user, $ctrl.user)"></gg-user>
+    <hr/>
+
+    <div>
+        <h3>{{$ctrl.isRootUser() ? 'My ' : ''}}Groups</h3>
+        <p ng-show="$ctrl.isRootUser()"><a ui-sref="groups.new" type="button" class="btn btn-info btn-sm" aria-label="add group">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New Group
+        </a></p>
+        <gg-group ng-repeat="group in $ctrl.groups" group="group"
+                  options="{{$root.authorizer.groupPrivilegesString($ctrl.user, group)}}"
+                  on-edit="$state.go('groups.edit', {id: group.id})"
+                  on-delete="$ctrl.deleteGroup(group)"
+                  on-members="$state.go('groups.members.view', {id: group.id})"></gg-group>
+        <p ng-show="$ctrl.groups.length == 0 && $ctrl.isRootUser()">You don't have any groups.</p>
+        <p ng-show="$ctrl.groups.length == 0 && !$ctrl.isRootUser()">There are no groups for this user.</p>
+    </div>
+
+    <div>
+        <h3>{{$ctrl.isRootUser() ? 'My ' : ''}}Direct Reports</h3>
+        <gg-user ng-repeat="user in $ctrl.directReports"
+                 user="user"
+                 show-edit="$root.authorizer.userCanEditUser($root.user, user)"
+                 show-select="true"
+                 on-edit="$state.go('users.edit', {id: user.id, returnTo: 'details'})"
+                 on-select="$state.go('users.details', {id: user.id})"></gg-user>
+        <p ng-show="$ctrl.directReports.length == 0 && $ctrl.isRootUser()">You don't have any direct reports.</p>
+        <p ng-show="$ctrl.directReports.length == 0 && !$ctrl.isRootUser()">There are no direct reports for this user.</p>
+    </div>
+</div>

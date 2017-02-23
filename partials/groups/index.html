@@ -1,0 +1,15 @@
+<div scroll-pos="keep">
+    <h3>Groups
+        <a ng-show="$root.authorizer.userCanCreateGroup($root.user)" ui-sref="groups.new" type="button" class="btn btn-info btn-sm" aria-label="add group">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        </a>
+    </h3>
+
+    <p ng-show="$root.authorizer.canDownloadGroups($root.user)"><a ng-click="$ctrl.download()"><span class="glyphicon glyphicon-download"></span> Download all groups</a></p>
+
+    <grace-group-listing
+            on-edit-group="$state.go('groups.edit', {id: group.id})"
+            on-group-members="$state.go('groups.members.view', {id: group.id})">
+    </grace-group-listing>
+
+</div>

@@ -1,0 +1,83 @@
+<p><a ng-click="$state.go('groups.members.view', {id: $ctrl.group.id})">
+    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Cancel
+</a></p>
+<div class="row" scroll-pos="top">
+    <div class="col-md-6 col-lg-5 col-sm-8">
+        <div ng-show="$ctrl.group.isFull()" class="alert alert-danger" role="alert">Warning! You are adding members to a full group.</div>
+        <div class="well">
+            <h3>Add Member <span class="small">{{$ctrl.group.name}}</span></h3>
+            <form name="form" novalidate ng-submit="$ctrl.createMode ? $ctrl.saveAndAddMember(form) : $ctrl.nameChanged()">
+                <div class="form-group">
+                    <input autocomplete="off" type="text" name="uFirstName" class="form-control" placeholder="first name" ng-model="$ctrl.newContact.firstName"
+                           required ng-change="$ctrl.nameChanged()" ng-model-options="{debounce: 500}"/>
+                    <div class="text-danger" ng-show="$ctrl.createMode && (form.$submitted || form.uFirstName.$touched)">
+                        <div ng-show="form.uFirstName.$error.required">Required</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input autocomplete="off" type="text" name="uLastName" class="form-control" placeholder="last name" ng-model="$ctrl.newContact.lastName"
+                           required ng-change="$ctrl.nameChanged()" ng-model-options="{debounce: 500}"/>
+                    <div class="text-danger" ng-show="$ctrl.createMode && (form.$submitted || form.uLastName.$touched)">
+                        <div ng-show="form.uLastName.$error.required">Required</div>
+                    </div>
+                </div>
+                <p>
+                <ul class="nav nav-tabs">
+                    <li role="presentation" ng-class="{active: !$ctrl.createMode}"><a ng-click="$ctrl.setCreateMode(false)">Select existing</a></li>
+                    <li role="presentation" ng-class="{active: $ctrl.createMode}"><a  ng-click="$ctrl.setCreateMode(true)">Create new</a></li>
+                </ul>
+                <p>
+
+                <br/>
+
+                <div ng-show="$ctrl.createMode">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="uEmail" class="form-control" ng-model="$ctrl.newContact.email"
+                               required-if-not-other="$ctrl.newContact.phoneNumber"
+                               server-validation/>
+                        <div class="text-danger" ng-show="form.$submitted || form.uEmail.$touched">
+                            <div ng-show="form.uEmail.$error.requiredIfNotOther">Either email or phone number must be provided</div>
+                            <div ng-show="form.uEmail.$error.email">Invalid email</div>
+                            <div ng-show="form.uEmail.$error.serverValidation">{{form.uEmail.$error.serverError}}</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone number</label>
+                        <input type="text" name="uPhoneNumber" class="form-control" ng-model="$ctrl.newContact.phoneNumber"
+                               required-if-not-other="$ctrl.newContact.email"
+                        />
+                        <div class="text-danger" ng-show="form.$submitted || form.uPhoneNumber.$touched">
+                            <div ng-show="form.uPhoneNumber.$error.requiredIfNotOther">Either phone number or email must be provided</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary" aria-label="search">Add</button>
+                    </div>
+                </div>
+                <div ng-hide="$ctrl.createMode">
+                    <p ng-show="$ctrl.users.length > 0">Click on the member's name to add them.</p>
+                    <div ng-repeat="user in $ctrl.users">
+                        <div ng-switch="$ctrl.isMember(user)">
+                            <gg-user ng-switch-when="true" user="user"
+                                     badge="'Already Member'"
+                                     hide-role></gg-user>
+
+                            <gg-user ng-switch-default user="user"
+                                     on-select="$ctrl.addMember(user)"
+                                     hide-role show-select="true"></gg-user>
+                        </div>
+                    </div>
+
+                    <p ng-show="$ctrl.totalCount == 0">No users found. <a ng-click="$ctrl.createMode=true">Create new contact</a></p>
+                    <p class="text-danger" ng-show="$ctrl.totalCount > $ctrl.users.length"><a ng-click="$ctrl.showMore()">Show {{$ctrl.showMoreCount()}} more</a></p>
+                    <p ng-show="$ctrl.totalCount == null">Start typing a name to see existing users</p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<p><a ng-click="$state.go('groups.members.view', {id: $ctrl.group.id})">
+    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Cancel
+</a></p>
+

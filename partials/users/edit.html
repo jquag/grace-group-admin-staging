@@ -1,0 +1,4 @@
+<div scroll-pos="top">
+    <h3>Edit {{$ctrl.isRootUser() ? 'profile' : 'user'}}</h3>
+    <gg-user-form user="$ctrl.user" managers="$ctrl.managers" on-cancel="$ctrl.cancel()" on-save="$ctrl.afterSave()" start-with-change-password="$ctrl.changePassword"></gg-user-form>
+</div>

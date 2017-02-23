@@ -1,0 +1,39 @@
+<div scroll-pos="keep">
+    <h3>Users
+        <a ui-sref="users.new" type="button" class="btn btn-info btn-sm" aria-label="add user">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        </a>
+    </h3>
+    <div class="well">
+        <form class="form-inline" ng-submit="$ctrl.search()" promise-btn>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="first name" ng-model="$ctrl.searchFirstNameText">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="last name" ng-model="$ctrl.searchLastNameText">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-info btn-sm" aria-label="search">Search</button>
+                <a type="button" class="btn btn-default btn-sm" aria-label="clear" ng-click="$ctrl.clearSearch()">Clear</a>
+            </div>
+            <div class="form-group"><span ng-show="$ctrl.isFiltered" class="label label-primary">Filtered</span><span class="text-muted"> Count:</span> {{$ctrl.totalCount}}</div>
+        </form>
+    </div>
+    <br/>
+
+    <gg-user ng-repeat="user in $ctrl.users"
+             user="user"
+             show-edit="$root.authorizer.userCanEditUser($root.user, user)"
+             show-remove="$root.authorizer.userCanDeleteUser($root.user, user)"
+             confirm-remove="true"
+             show-select="true"
+             on-edit="$state.go('users.edit', {id: user.id})"
+             on-remove="$ctrl.deleteUser(user)"
+             on-select="$state.go('users.details', {id: user.id})"></gg-user>
+
+    <div ng-show="$ctrl.noUsers()">No users found</div>
+
+    <p class="text-danger" ng-show="$ctrl.totalCount > $ctrl.users.length">
+        <button class="btn btn-default" ng-click="$ctrl.showMore()" promise-btn>Show {{$ctrl.showMoreCount()}} more</button>
+    </p>
+</div>

@@ -1,0 +1,101 @@
+<div class="row" ng-show="$ctrl.user">
+    <div class="col-md-6 col-lg-5 col-sm-8">
+        <div class="well">
+            <form name="form" novalidate ng-submit="$ctrl.save(form)" promise-btn>
+                <div class="form-group" ng-hide="$ctrl.noRoleChange != undefined" ng-class="{'has-error': form.uRole.$invalid}">
+                    <label>Role</label>
+                    <select class="form-control" name="uRole" ng-model="$ctrl.user.role"
+                            ng-options="role.code as role.label for role in $ctrl.roles"
+                            ng-change="$ctrl.handleRoleChange()">
+                    </select>
+                    <div class="text-danger" ng-show="form.$submitted || form.uRole.$touched">
+                        <div ng-show="form.uRole.$error.serverValidation">{{form.uRole.$error.serverError}}</div>
+                    </div>
+                </div>
+                <div class="form-group" ng-hide="$ctrl.user.role == 'CONTACT'">
+                    <label>
+                        <input type="checkbox" ng-model="$ctrl.user.admin" ng-disabled="!($root.user.admin || $root.user.role == 'PASTOR')">
+                        Admin
+                    </label>
+                </div>
+                <div class="form-group" ng-class="{'has-error': form.uEmail.$invalid}">
+                    <label>Email</label>
+                    <input type="email" name="uEmail" class="form-control" ng-model="$ctrl.user.email"
+                           ng-required="$ctrl.user.role != 'CONTACT'"
+                           required-if-not-other="$ctrl.user.phoneNumber"
+                           server-validation/>
+                    <div class="text-danger" ng-show="form.$submitted || form.uEmail.$touched">
+                        <div ng-show="form.uEmail.$error.required">Required</div>
+                        <div ng-show="form.uEmail.$error.email">Invalid email</div>
+                        <div ng-show="form.uEmail.$error.serverValidation">{{form.uEmail.$error.serverError}}</div>
+                        <div ng-show="form.uEmail.$error.requiredIfNotOther && !form.uEmail.$error.required">Either email or phone number must be provided</div>
+                    </div>
+                </div>
+                <div class="form-group" ng-show="$ctrl.user.role == 'PASTOR' || $ctrl.user.admin">
+                    <label>
+                        <input type="checkbox" ng-model="$ctrl.user.receiveGroupNotifications">
+                        Receive group notifications
+                    </label>
+                </div>
+                <div class="form-group" ng-show="$ctrl.needsManager()" ng-class="{'has-error': form.uManager.$invalid}">
+                    <label>Manager</label>
+                    <select class="form-control" name="uManager" ng-model="$ctrl.user.managerId"
+                            ng-required="$ctrl.needsManager()"
+                            ng-disabled="!$root.authorizer.userCanChangeManagerOf($root.user, $ctrl.user)"
+                            ng-options="manager.id as manager.fullName() for manager in $ctrl.availableManagers">
+                        <option value=""></option>
+                    </select>
+                    <div class="text-danger" ng-show="form.$submitted || form.uManager.$touched">
+                        <div ng-show="form.uManager.$error.required">Required</div>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{'has-error': form.uFirstName.$invalid}">
+                    <label>First name</label>
+                    <input type="text" name="uFirstName" class="form-control" ng-model="$ctrl.user.firstName" required/>
+                    <div class="text-danger" ng-show="form.$submitted || form.uFirstName.$touched">
+                        <div ng-show="form.uFirstName.$error.required">Required</div>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{'has-error': form.uLastName.$invalid}">
+                    <label>Last name</label>
+                    <input type="text" name="uLastName" class="form-control" ng-model="$ctrl.user.lastName" required/>
+                    <div class="text-danger" ng-show="form.$submitted || form.uLastName.$touched">
+                        <div ng-show="form.uLastName.$error.required">Required</div>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{'has-error': form.uPhoneNumber.$invalid}">
+                    <label>Phone number</label>
+                    <input type="text" name="uPhoneNumber" class="form-control" ng-model="$ctrl.user.phoneNumber"
+                           required-if-not-other="$ctrl.user.email" />
+                    <div class="text-danger" ng-show="form.$submitted || form.uPhoneNumber.$touched">
+                        <div ng-show="form.uPhoneNumber.$error.requiredIfNotOther">Either phone number or email must be provided</div>
+                    </div>
+                </div>
+                <div ng-hide="$ctrl.isNew || $ctrl.user.role == 'CONTACT' || $ctrl.noPreviousPassword" class="form-group">
+                    <label>
+                        <input type="checkbox" ng-model="$ctrl.changePassword">
+                        Change password
+                    </label>
+                </div>
+                <div ng-show="($ctrl.changePassword || $ctrl.noPreviousPassword) && $ctrl.user.role != 'CONTACT'" ng-class="{'has-error': form.uPassword.$invalid}">
+                    <div class="form-group">
+                        <label><span ng-hide="$ctrl.isNew || $ctrl.noPreviousPassword">New </span>Password</label>
+                        <input type="password" class="form-control" name="uPassword" ng-model="$ctrl.user.newPassword" ng-required="($ctrl.changePassword || $ctrl.noPreviousPassword) && $ctrl.user.role != 'CONTACT'" />
+                        <div class="text-danger" ng-show="form.$submitted || form.uPassword.$touched">
+                            <div ng-show="form.uPassword.$error.required">Required</div>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-class="{'has-error': form.uPasswordConfirmation.$invalid}">
+                        <label>Re-type <span ng-hide="$ctrl.isNew">new </span>password</label>
+                        <input type="password" name="uPasswordConfirmation" class="form-control" ng-model="$ctrl.passwordConfirmation" compare-to="$ctrl.user.newPassword"/>
+                        <div class="text-danger" ng-show="form.$submitted || form.uPasswordConfirmation.$touched">
+                            <div ng-show="form.uPasswordConfirmation.$error.compareTo">Does not match</div>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-default" ng-click="$ctrl.onCancel()">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+        </div>
+    </div>
+</div>

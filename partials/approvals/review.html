@@ -1,0 +1,127 @@
+<div scroll-pos="top">
+    <h3>Review - {{$ctrl.group.name}}</h3>
+    <div class="label label-default">{{$ctrl.group.category | enumToLabel}}</div>
+
+    <form name="form" ng-submit="$ctrl.approve(form)" novalidate promise-btn>
+        <div><span class="text-info small">Leader(s):</span> <span>{{$ctrl.leaderDisplay($ctrl.group)}}</span></div>
+        <div><span class="text-info small">Email:</span> <a href="{{$ctrl.group | leaderMailTo:$ctrl.group.name}}"><span class="glyphicon glyphicon-envelope"></span> {{$ctrl.group.leader.email}}{{$ctrl.group.secondaryLeader ? ', ' + $ctrl.group.secondaryLeader.email : ''}}</a></div>
+        <div><span class="text-info small">Ages:</span> <span>{{$ctrl.ageDisplay($ctrl.group)}}</span></div>
+        <div><span class="text-info small">Gender preference:</span> <span>{{$ctrl.group.genderPreference | enumToLabel }}</span></div>
+        <div ng-show="$ctrl.group.specialInterest"><span class="text-info small">Special interest:</span> <span>{{$ctrl.group.specialInterest}}</span></div>
+        <div><span class="text-info small">Childcare:</span> <span>{{$ctrl.group.childcareType | enumToLabel}}</span></div>
+        <div><span class="text-info small">Status:</span> <span>{{$ctrl.group.maritalStatus | enumToLabel}}</span></div>
+        <br/>
+        <p>
+            <span ng-show="$ctrl.group.status == 'CREATION_PENDING'" class="label label-success">New Group</span>
+            <span ng-show="$ctrl.group.status == 'UPDATE_PENDING' && $ctrl.group.studyPending" class="label label-info">Description Change</span>
+            <span ng-show="$ctrl.group.status == 'UPDATE_PENDING' && $ctrl.group.namePending" class="label label-default">Name Change</span>
+            <span ng-show="$ctrl.group.status == 'UPDATE_PENDING' && $ctrl.group.locationChanged" class="label label-danger">Location Change</span>
+            <span ng-show="$ctrl.group.status == 'UPDATE_PENDING' && !$ctrl.group.locationChanged && $ctrl.group.roomRequestChanged" class="label label-danger">Room Request Change</span>
+            <span ng-show="$ctrl.group.status == 'UPDATE_PENDING' && $ctrl.group.scheduleChanged" class="label label-warning">Schedule Change</span>
+        </p>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-5 col-lg-4" ng-class="{'has-error': form.gName.$invalid}">
+                        <strong>Name:</strong>
+                        <input type="text" name="gName" class="form-control" ng-model="$ctrl.group.name" required/>
+                        <div class="text-danger" ng-show="form.$submitted || form.gName.$touched">
+                            <div ng-show="form.gName.$error.required">Required</div>
+                        </div>
+                        <br/>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-5 col-lg-4" ng-show="$ctrl.group.status == 'UPDATE_PENDING' && $ctrl.group.namePending">
+                        <span>Previous Name:</span>
+                        <div class="text-muted">{{$ctrl.group.approvedName}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-5 col-lg-4">
+                        <strong>Description:</strong>
+                        <textarea rows="5" maxlength="375" class="form-control" ng-model="$ctrl.group.study" ng-trim="false"></textarea>
+                        <span class="small text-muted">Characters remaining: {{375 - $ctrl.group.study.length}}</span>
+                        <br/>
+                        <br/>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-5 col-lg-4" ng-show="$ctrl.group.status == 'UPDATE_PENDING' && $ctrl.group.studyPending">
+                        <span>Previous Description:</span>
+                        <pre class="plain text-muted">{{$ctrl.group.approvedStudy}}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-5 col-lg-4">
+                        <div><strong>Schedule:</strong></div>
+                        <div>{{$ctrl.scheduleDisplay($ctrl.group.schedule)}}</div>
+                        <div ng-hide="$ctrl.group.schedule.frequency == 'AS_NEEDED'">{{$ctrl.timeDisplay($ctrl.group.schedule)}}</div>
+                        <div><span>{{$ctrl.group.schedule.startDate}} <span class="text-muted small">to</span> {{$ctrl.group.schedule.endDate}}</span></div>
+                        <br/>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-5 col-lg-4" ng-show="$ctrl.group.status == 'UPDATE_PENDING' && $ctrl.group.scheduleChanged">
+                        <div><span>Previous Schedule:</span></div>
+                        <div class="text-muted">{{$ctrl.scheduleDisplay($ctrl.group.approvedSchedule)}}</div>
+                        <div ng-hide="$ctrl.group.schedule.frequency == 'AS_NEEDED'" class="text-muted">{{$ctrl.timeDisplay($ctrl.group.approvedSchedule)}}</div>
+                        <div class="text-muted"><span>{{$ctrl.group.approvedSchedule.startDate}} <span class="text-muted small">to</span> {{$ctrl.group.approvedSchedule.endDate}}</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-5 col-lg-4">
+                        <div><strong>Location:</strong></div>
+                        <div>{{$ctrl.group.locationType | enumToLabel}}</div>
+                        <div ng-hide="$ctrl.group.locationType == 'OTHER'" class="form-group form-inline" ng-class="{'has-error': form.gRoom.$invalid}">
+                            <label>Room</label>
+                            <input type="text" name="gRoom" class="form-control" ng-model="$ctrl.group.address.room" ng-required="$ctrl.group.locationType != 'OTHER'"/>
+                            <div class="text-danger" ng-show="form.$submitted || form.gRoom.$touched">
+                                <div ng-show="form.gRoom.$error.required">Required</div>
+                            </div>
+                        </div>
+                        <br/>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-5 col-lg-4" ng-show="$ctrl.group.status == 'UPDATE_PENDING' && $ctrl.group.locationChanged">
+                        <div><span>Previous Location:</span></div>
+                        <div class="text-muted">{{$ctrl.group.approvedLocationType | enumToLabel}}</div>
+                        <div class="text-muted"><span>Room: {{$ctrl.group.approvedRoom || 'NA'}}</span></div>
+                        <br/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-5 col-lg-4" ng-show="$ctrl.group.locationType != 'OTHER'">
+                        <div><strong>Room request:</strong></div>
+                        <div>
+                            <span ng-show="$ctrl.group.roomRequest.needAv" class="label label-info">AV</span>
+                            <span ng-show="$ctrl.group.roomRequest.needTv" class="label label-info">TV</span>
+                            <span ng-show="$ctrl.group.roomRequest.needTables" class="label label-info">Tables</span>
+                        </div>
+                        <pre ng-show="$ctrl.group.roomRequest.additionalRequirements" class="plain">{{$ctrl.group.roomRequest.additionalRequirements}}</pre>
+                        <div><span class="text-muted small">Estimated attendance:</span> <span>{{$ctrl.group.capacity}}</span></div>
+                        <br/>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-5 col-lg-4" ng-show="$ctrl.group.locationType != 'OTHER' && $ctrl.group.status == 'UPDATE_PENDING' && $ctrl.group.roomRequestChanged">
+                        <div><span>Previous Room request:</span></div>
+                        <div>
+                            <span ng-show="$ctrl.group.approvedRoomRequest.needAv" class="label label-default">AV</span>
+                            <span ng-show="$ctrl.group.approvedRoomRequest.needTv" class="label label-default">TV</span>
+                            <span ng-show="$ctrl.group.approvedRoomRequest.needTables" class="label label-default">Tables</span>
+                        </div>
+                        <pre ng-show="$ctrl.group.approvedRoomRequest.additionalRequirements" class="plain text-muted">{{$ctrl.group.approvedRoomRequest.additionalRequirements}}</pre>
+                        <br/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button type="button" class="btn btn-default" ng-click="$state.go('approvals.index')">Cancel</button>
+        <button type="submit" class="btn btn-primary">Approve</button>
+    </form>
+    <br/>
+</div>
