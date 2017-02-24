@@ -2,8 +2,8 @@
     <div class="panel-body">
         <div class="photo-scoped">
             <div class="extra-space-below profile-image">
-                <img class="img-rounded" ng-src="{{$ctrl.group.leader.imageUrl || '/app/noImage.png'}}">
-                <img ng-show="$ctrl.group.secondaryLeader && $ctrl.group.secondaryLeader.imageUrl" class="img-rounded" ng-src="{{$ctrl.group.secondaryLeader.imageUrl || '/app/noImage.png'}}">
+                <img class="img-rounded" ng-src="{{$ctrl.group.leader.imageUrl | orDefaultImage}}">
+                <img ng-show="$ctrl.group.secondaryLeader && $ctrl.group.secondaryLeader.imageUrl" class="img-rounded" ng-src="{{$ctrl.group.secondaryLeader.imageUrl}}">
             </div>
             <div>
                 <div class="row extra-space-below">

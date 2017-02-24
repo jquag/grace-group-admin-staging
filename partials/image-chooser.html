@@ -9,13 +9,13 @@
                 <div class="row">
                     <div class="col-xs-6">
                         <label>Current Image</label>
-                        <img class="img-responsive" ng-src="{{currentImage || '/app/noImage.png'}}">
+                        <img class="img-responsive" ng-src="{{currentImage | orDefaultImage}}">
                     </div>
                     <div class="col-xs-6">
                         <label>New Image</label>
                         <div class="extra-space-below">
                             <img ng-show="imageFile" class="img-responsive" ngf-src='imageFile'>
-                            <img ng-show="clearImage" class="img-responsive" src='/app/noImage.png'>
+                            <img ng-show="clearImage" class="img-responsive" ng-src='{{null | orDefaultImage}}'>
                         </div>
                         <div class="btn btn-default" ngf-pattern="'image/*'" ng-model="imageFile" ngf-select="selected()" ngf-fix-orientation="true"
                              ngf-model-invalid="invalid" ngf-accept="'image/*'" ngf-max-size="3MB" ngf-capture="'camera'">Select

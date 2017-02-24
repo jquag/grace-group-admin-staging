@@ -3,8 +3,8 @@
         <div class="photo-scoped">
             <div class="extra-space-below profile-image">
                 <span class="glyphicon glyphicon-pencil icon-on-image" ng-show="$ctrl.showEdit"></span>
-                <img ng-show="$ctrl.showEdit" class="img-rounded clickable" ng-src="{{$ctrl.user.imageUrl || '/app/noImage.png'}}" data-toggle="modal" data-target="#user-{{$ctrl.user.id}}-image-chooser">
-                <img ng-hide="$ctrl.showEdit" class="img-rounded" ng-src="{{$ctrl.user.imageUrl || '/app/noImage.png'}}">
+                <img ng-show="$ctrl.showEdit" class="img-rounded clickable" ng-src="{{$ctrl.user.imageUrl | orDefaultImage}}" data-toggle="modal" data-target="#user-{{$ctrl.user.id}}-image-chooser">
+                <img ng-hide="$ctrl.showEdit" class="img-rounded" ng-src="{{$ctrl.user.imageUrl | orDefaultImage}}">
             </div>
             <div>
                 <div class="row extra-space-below">

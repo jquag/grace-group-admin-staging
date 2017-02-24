@@ -8,4 +8,6 @@ angular.module("ngConstants", [])
 
 .constant("partialPath", "partials")
 
+.constant("imagesPath", "/images")
+
 ;
