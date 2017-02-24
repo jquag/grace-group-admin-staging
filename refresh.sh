@@ -1,4 +1,3 @@
-cp ../grace-groups-ui/dist/* .
+cp -r ../grace-groups-ui/dist/* .
 git add .
 git commit -m "changes"
-git push origin master
