@@ -2,8 +2,8 @@
     <div class="panel-body">
         <div class="photo-scoped">
             <div class="extra-space-below profile-image">
-                <img class="img-rounded" ng-src="{{$ctrl.group.leader.imageUrl | orDefaultImage}}">
-                <img ng-show="$ctrl.group.secondaryLeader && $ctrl.group.secondaryLeader.imageUrl" class="img-rounded" ng-src="{{$ctrl.group.secondaryLeader.imageUrl}}">
+                <img class="img-rounded photo-scoped-image" ng-src="{{$ctrl.group.leader.imageUrl | orDefaultImage}}">
+                <img ng-show="$ctrl.group.secondaryLeader && $ctrl.group.secondaryLeader.imageUrl" class="img-rounded photo-scoped-image" ng-src="{{$ctrl.group.secondaryLeader.imageUrl}}">
             </div>
             <div>
                 <div class="row extra-space-below">
@@ -30,12 +30,13 @@
                 <div class="row extra-space-below">
                     <div class="col-xs-12">
                         <span class="h4">{{$ctrl.group.namePending? "Group" : $ctrl.group.name}}</span>
-                        <span ng-show="$ctrl.group.isFull()" class="label label-danger">FULL</span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-12">
                         <span class="label label-default">{{$ctrl.group.category | enumToLabel}}</span>
+                        <span ng-show="$ctrl.indicateIfPublic && $ctrl.group.published" class="label label-success">Public</span>
+                        <span ng-show="$ctrl.group.isFull()" class="label label-danger">Full</span>
                     </div>
                 </div>
             </div>

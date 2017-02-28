@@ -3,8 +3,8 @@
         <div class="photo-scoped">
             <div class="extra-space-below profile-image">
                 <span class="glyphicon glyphicon-pencil icon-on-image" ng-show="$ctrl.showEdit"></span>
-                <img ng-show="$ctrl.showEdit" class="img-rounded clickable" ng-src="{{$ctrl.user.imageUrl | orDefaultImage}}" data-toggle="modal" data-target="#user-{{$ctrl.user.id}}-image-chooser">
-                <img ng-hide="$ctrl.showEdit" class="img-rounded" ng-src="{{$ctrl.user.imageUrl | orDefaultImage}}">
+                <img ng-show="$ctrl.showEdit" class="img-rounded clickable photo-scoped-image" ng-src="{{$ctrl.user.imageUrl | orDefaultImage}}" data-toggle="modal" data-target="#user-{{$ctrl.user.id}}-image-chooser">
+                <img ng-hide="$ctrl.showEdit" class="img-rounded photo-scoped-image" ng-src="{{$ctrl.user.imageUrl | orDefaultImage}}">
             </div>
             <div>
                 <div class="row extra-space-below">
@@ -29,8 +29,11 @@
                     <span ng-show="$ctrl.user.admin" class="text-info glyphicon glyphicon-certificate" aria-hidden="true"></span>
                     <span class="badge">{{$ctrl.badge}}</span>
                 </div>
-                <div ng-show="$ctrl.user.email"><span class="text-muted small">email:</span> <span>{{$ctrl.user.email}}</span></div>
-                <div ng-show="$ctrl.user.phoneNumber"><span class="text-muted small">Phone number:</span> <span>{{$ctrl.user.phoneNumber}}</span></div>
+                <div ng-show="$ctrl.user.email"><span class="glyphicon glyphicon-envelope"></span> <span>{{$ctrl.user.email}}</span></div>
+                <div ng-show="$ctrl.user.facebookLink"><img class="img-icon" src="images/FB-f-Logo__blue_29.png">
+                    <a ng-href="{{$ctrl.user.facebookLinkFull()}}" target="_blank">{{$ctrl.user.facebookLink}}</a>
+                </div>
+                <div ng-show="$ctrl.user.phoneNumber"><span class="glyphicon glyphicon-earphone"></span> <span>{{$ctrl.user.phoneNumber}}</span></div>
                 <h4 ng-show="$ctrl.user.address"><small>Address</small>
                     <address>
                         {{$ctrl.user.address.line1}}<br>
