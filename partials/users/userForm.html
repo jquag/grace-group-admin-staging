@@ -63,12 +63,20 @@
                         <div ng-show="form.uLastName.$error.required">Required</div>
                     </div>
                 </div>
-                <div class="form-group" ng-class="{'has-error': form.uPhoneNumber.$invalid}">
+                <div class="form-group form-inline" ng-class="{'has-error': form.uPhoneNumber.$invalid}">
                     <label>Phone number</label>
                     <input type="text" name="uPhoneNumber" class="form-control" ng-model="$ctrl.user.phoneNumber"
                            required-if-not-other="$ctrl.user.email" />
+                    <select class="form-control" ng-model="$ctrl.user.phoneType" name="uPhoneType" ng-required="$ctrl.user.phoneNumber">
+                        <option value=""></option>
+                        <option value="HOME">Home</option>
+                        <option value="MOBILE">Mobile</option>
+                        <option value="WORK">Work</option>
+                        <option value="OTHER">Other</option>
+                    </select>
                     <div class="text-danger" ng-show="form.$submitted || form.uPhoneNumber.$touched">
                         <div ng-show="form.uPhoneNumber.$error.requiredIfNotOther">Either phone number or email must be provided</div>
+                        <div ng-show="form.uPhoneType.$error.required">Please specify the phone number type</div>
                     </div>
                 </div>
                 <div class="form-group" ng-class="{'has-error': form.uFacebookLink.$invalid}">

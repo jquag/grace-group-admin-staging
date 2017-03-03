@@ -173,6 +173,10 @@
                         </div>
 
                         <div ng-show="$ctrl.group.locationType == 'OTHER'">
+                            <div class="form-group" ng-class="{'has-error': form.gAddressLocationName.$invalid}">
+                                <label>Location name</label>
+                                <input type="text" name="gAddressLocationName" class="form-control" ng-model="$ctrl.group.address.locationName"/>
+                            </div>
                             <div class="form-group" ng-class="{'has-error': form.gAddressLine1.$invalid}">
                                 <label>Address Line 1 *</label>
                                 <input type="text" name="gAddressLine1" class="form-control" ng-model="$ctrl.group.address.line1" ng-required="$ctrl.group.locationType == 'OTHER'"/>

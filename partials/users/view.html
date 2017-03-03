@@ -33,7 +33,11 @@
                 <div ng-show="$ctrl.user.facebookLink"><img class="img-icon" src="images/FB-f-Logo__blue_29.png">
                     <a ng-href="{{$ctrl.user.facebookLinkFull()}}" target="_blank">{{$ctrl.user.facebookLink}}</a>
                 </div>
-                <div ng-show="$ctrl.user.phoneNumber"><span class="glyphicon glyphicon-earphone"></span> <span>{{$ctrl.user.phoneNumber}}</span></div>
+                <div ng-show="$ctrl.user.phoneNumber">
+                    <span class="glyphicon" ng-class="{'glyphicon-earphone': $ctrl.user.phoneType != 'MOBILE', 'glyphicon-phone': $ctrl.user.phoneType == 'MOBILE'}"></span>
+                    <span>{{$ctrl.user.phoneNumber}}</span>
+                    <span class="text-muted">({{$ctrl.user.phoneType | enumToLabel}})</span>
+                </div>
                 <h4 ng-show="$ctrl.user.address"><small>Address</small>
                     <address>
                         {{$ctrl.user.address.line1}}<br>

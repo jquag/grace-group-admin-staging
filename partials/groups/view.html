@@ -29,7 +29,8 @@
                 </div>
                 <div class="row extra-space-below">
                     <div class="col-xs-12">
-                        <span class="h4">{{$ctrl.group.namePending? "Group" : $ctrl.group.name}}</span>
+                        <span ng-show="$ctrl.group.namePending && $root.user" class="text-danger glyphicon glyphicon-exclamation-sign" data-toggle="tooltip" data-placement="top" title="Pending approval"></span>
+                        <span class="h4">{{$ctrl.groupName()}}</span>
                     </div>
                 </div>
                 <div class="row">
@@ -43,7 +44,7 @@
         </div>
         <div class="row">
             <div class="col-xs-12 col-md-11 col-lg-9">
-                <pre class="plain text-muted bigger" ng-show="$ctrl.group.study">{{$ctrl.group.studyPending ? "Description pending..." : $ctrl.group.study}}</pre>
+                <pre class="plain text-muted bigger" ng-show="$ctrl.group.study"><span ng-show="$ctrl.group.studyPending && $root.user" data-toggle="tooltip" data-placement="top" title="pending approval" class="text-danger glyphicon glyphicon-exclamation-sign"></span> {{$ctrl.group.studyPending && $root.user == null ? "Description pending..." : $ctrl.group.study}}</pre>
             </div>
         </div>
         <div class="row">
@@ -63,15 +64,18 @@
                 <div ng-show="$ctrl.group.specialInterest"><span class="text-info small">Special interest:</span> <span>{{$ctrl.group.specialInterest}}</span></div>
                 <br/>
             </div>
-            <div ng-show="$ctrl.group.locationPending" class="col-xs-12 col-sm-4 col-md-4 col-lg-6">
+            <div ng-show="$ctrl.group.locationPending && $root.user == null" class="col-xs-12 col-sm-4 col-md-4 col-lg-6">
                 <div><span class="text-info small">Location: </span> <span>pending</span></div>
                 <br/>
             </div>
-            <div ng-hide="$ctrl.group.locationPending" class="col-xs-12 col-sm-4 col-md-4 col-lg-6">
-                <div><span class="text-info small">Location:</span>
+            <div ng-hide="$ctrl.group.locationPending && $root.user == null" class="col-xs-12 col-sm-4 col-md-4 col-lg-6">
+                <div>
+                    <span class="text-info small">Location:</span>
+                    <span ng-show="$ctrl.group.locationPending" class="glyphicon glyphicon-exclamation-sign text-danger" data-toggle="tooltip" data-placement="top" title="Pending approval"></span>
                     <address>
                         <span ng-show="$ctrl.onGraceWestCampus()">Grace Church<br/></span>
                         <span ng-show="$ctrl.onGraceEastCampus()">Grace Church (East Campus)<br/></span>
+                        <span ng-show="!$ctrl.onGraceEastCampus() && !$ctrl.onGraceWestCampus() && $ctrl.group.address.locationName">{{$ctrl.group.address.locationName}}<br/></span>
                         <span ng-show="$ctrl.showStreetAddress()">{{$ctrl.group.address.line1}}<br></span>
                         <span ng-show="$ctrl.group.address.line2 && $ctrl.showStreetAddress()">{{$ctrl.group.address.line2}}<br></span>
                         {{$ctrl.group.address.city}}, {{$ctrl.group.address.state}} {{$ctrl.group.address.zip}}<br>
