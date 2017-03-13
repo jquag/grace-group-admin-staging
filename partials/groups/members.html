@@ -3,9 +3,12 @@
     <div ng-show="$ctrl.group && $ctrl.members">
         <h3>Members <span class="small">{{$ctrl.group.name}}</span></h3>
         <p>
-            <button type="button" class="btn btn-info btn-sm" ng-click="$state.go('groups.members.select', {id: $ctrl.group.id})">
+            <button type="button" class="btn btn-info" ng-click="$state.go('groups.members.select', {id: $ctrl.group.id})">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Member
             </button>
+            <a ng-show="$ctrl.members.length > 0" class="btn btn-default sm quick-action" href="{{$ctrl.members | mailToAll}}">
+                <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Email Members
+            </a>
         </p>
         <gg-user ng-repeat="user in $ctrl.members" user="user" on-remove="$ctrl.removeMember(user)" show-remove="true" hide-role></gg-user>
     </div>

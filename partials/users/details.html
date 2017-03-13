@@ -21,6 +21,9 @@
 
     <div>
         <h3>{{$ctrl.isRootUser() ? 'My ' : ''}}Direct Reports</h3>
+        <p><a ng-show="$ctrl.directReports.length > 0" class="btn btn-default sm quick-action" href="{{$ctrl.directReports | mailToAll}}">
+            <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Email Direct Reports
+        </a></p>
         <gg-user ng-repeat="user in $ctrl.directReports"
                  user="user"
                  show-edit="$root.authorizer.userCanEditUser($root.user, user)"

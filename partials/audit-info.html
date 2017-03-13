@@ -1,0 +1,16 @@
+<div ng-if="$ctrl.model.auditInfo && $root.authorizer.userCanSeeAuditInfo($root.user)">
+    <div class="small" ng-show="$ctrl.model.auditInfo.createdBy || $ctrl.model.auditInfo.createdAt">
+        <span class="text-muted">Created</span>
+        <span class="text-muted" ng-show="$ctrl.model.auditInfo.createdBy">by</span>
+        <span ng-show="$ctrl.model.auditInfo.createdBy"><a ui-sref="users.details({id: $ctrl.model.auditInfo.createdBy.id})">{{$ctrl.model.auditInfo.createdBy.fullName()}}</a></span>
+        <span class="text-muted" ng-show="$ctrl.model.auditInfo.createdAt">on</span>
+        <span ng-show="$ctrl.model.auditInfo.createdAt">{{$ctrl.model.auditInfo.createdAt | date:"MM/dd/yyyy hh:mma"}}</span>
+    </div>
+    <div class="small" ng-show="$ctrl.model.auditInfo.updatedBy || $ctrl.model.auditInfo.updatedAt">
+        <span class="text-muted">Last updated</span>
+        <span class="text-muted" ng-show="$ctrl.model.auditInfo.updatedBy">by</span>
+        <span ng-show="$ctrl.model.auditInfo.updatedBy"><a ui-sref="users.details({id: $ctrl.model.auditInfo.updatedBy.id})">{{$ctrl.model.auditInfo.updatedBy.fullName()}}</a></span>
+        <span class="text-muted" ng-show="$ctrl.model.auditInfo.updatedAt">on</span>
+        <span ng-show="$ctrl.model.auditInfo.updatedAt">{{$ctrl.model.auditInfo.updatedAt | date:"MM/dd/yyyy hh:mma"}}</span>
+    </div>
+</div>
