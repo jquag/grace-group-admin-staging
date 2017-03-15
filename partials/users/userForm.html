@@ -81,7 +81,7 @@
                 </div>
                 <div class="form-group" ng-class="{'has-error': form.uFacebookLink.$invalid}">
                     <label>Facebook link</label>
-                    <input type="text" name="uFacebookLink" class="form-control" ng-model="$ctrl.user.facebookLink" server-validation/>
+                    <input type="text" name="uFacebookLink" class="form-control" ng-model="$ctrl.user.facebookLink" autocomplete="false" server-validation/>
                     <div class="text-danger" ng-show="form.$submitted || form.uFacebookLink.$touched">
                         <div ng-show="form.uFacebookLink.$error.serverValidation">{{form.uFacebookLink.$error.serverError}}</div>
                     </div>
@@ -95,14 +95,14 @@
                 <div ng-show="($ctrl.changePassword || $ctrl.noPreviousPassword) && $ctrl.user.role != 'CONTACT'" ng-class="{'has-error': form.uPassword.$invalid}">
                     <div class="form-group">
                         <label><span ng-hide="$ctrl.isNew || $ctrl.noPreviousPassword">New </span>Password</label>
-                        <input type="password" class="form-control" name="uPassword" ng-model="$ctrl.user.newPassword" ng-required="($ctrl.changePassword || $ctrl.noPreviousPassword) && $ctrl.user.role != 'CONTACT'" />
+                        <input type="password" class="form-control" name="uPassword" autocomplete="false" ng-model="$ctrl.user.newPassword" ng-required="($ctrl.changePassword || $ctrl.noPreviousPassword) && $ctrl.user.role != 'CONTACT'" />
                         <div class="text-danger" ng-show="form.$submitted || form.uPassword.$touched">
                             <div ng-show="form.uPassword.$error.required">Required</div>
                         </div>
                     </div>
                     <div class="form-group" ng-class="{'has-error': form.uPasswordConfirmation.$invalid}">
                         <label>Re-type <span ng-hide="$ctrl.isNew">new </span>password</label>
-                        <input type="password" name="uPasswordConfirmation" class="form-control" ng-model="$ctrl.passwordConfirmation" compare-to="$ctrl.user.newPassword"/>
+                        <input type="password" name="uPasswordConfirmation" class="form-control" autocomplete="false" ng-model="$ctrl.passwordConfirmation" compare-to="$ctrl.user.newPassword"/>
                         <div class="text-danger" ng-show="form.$submitted || form.uPasswordConfirmation.$touched">
                             <div ng-show="form.uPasswordConfirmation.$error.compareTo">Does not match</div>
                         </div>
