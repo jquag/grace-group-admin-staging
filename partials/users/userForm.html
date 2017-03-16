@@ -63,6 +63,13 @@
                         <div ng-show="form.uLastName.$error.required">Required</div>
                     </div>
                 </div>
+                <div class="form-group" ng-class="{'has-error': form.uFacebookLink.$invalid}">
+                    <label>Facebook link</label>
+                    <input type="text" name="uFacebookLink" class="form-control" ng-model="$ctrl.user.facebookLink" server-validation/>
+                    <div class="text-danger" ng-show="form.$submitted || form.uFacebookLink.$touched">
+                        <div ng-show="form.uFacebookLink.$error.serverValidation">{{form.uFacebookLink.$error.serverError}}</div>
+                    </div>
+                </div>
                 <div class="form-group form-inline" ng-class="{'has-error': form.uPhoneNumber.$invalid}">
                     <label>Phone number</label>
                     <input type="text" name="uPhoneNumber" class="form-control" ng-model="$ctrl.user.phoneNumber"
@@ -79,13 +86,6 @@
                         <div ng-show="form.uPhoneType.$error.required">Please specify the phone number type</div>
                     </div>
                 </div>
-                <!--<div class="form-group" ng-class="{'has-error': form.uFacebookLink.$invalid}">-->
-                    <!--<label>Facebook link</label>-->
-                    <!--<input type="text" name="uFacebookLink" class="form-control" ng-model="$ctrl.user.facebookLink" server-validation/>-->
-                    <!--<div class="text-danger" ng-show="form.$submitted || form.uFacebookLink.$touched">-->
-                        <!--<div ng-show="form.uFacebookLink.$error.serverValidation">{{form.uFacebookLink.$error.serverError}}</div>-->
-                    <!--</div>-->
-                <!--</div>-->
                 <div ng-hide="$ctrl.isNew || $ctrl.user.role == 'CONTACT' || $ctrl.noPreviousPassword" class="form-group">
                     <label>
                         <input type="checkbox" ng-model="$ctrl.changePassword">
