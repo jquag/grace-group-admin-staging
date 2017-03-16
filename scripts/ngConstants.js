@@ -1,13 +1,13 @@
 angular.module("ngConstants", [])
 
-.constant("envName", "production")
+.constant("envName", "qa")
 
 .constant("secureCookies", true)
 
 .constant("serviceUrl", "https://grace-groups.herokuapp.com")
 
-.constant("partialPath", "/group-admin/partials")
+.constant("partialPath", "partials")
 
-.constant("imagesPath", "/group-admin/images")
+.constant("imagesPath", "images")
 
 ;
