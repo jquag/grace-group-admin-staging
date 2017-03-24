@@ -31,7 +31,7 @@
                 </div>
                 <div ng-show="$ctrl.user.email"><span class="glyphicon glyphicon-envelope"></span> <span>{{$ctrl.user.email}}</span></div>
                 <div ng-show="$ctrl.user.facebookLink"><img class="img-icon" src="images/FB-f-Logo__blue_29.png">
-                    <a ng-href="{{$ctrl.user.facebookLinkFull()}}" target="_blank">{{$ctrl.user.facebookLink}}</a>
+                    <a ng-href="{{$ctrl.user.facebookLinkFull()}}" target="_blank">{{$ctrl.user.facebookLinkShort()}}</a>
                 </div>
                 <div ng-show="$ctrl.user.phoneNumber">
                     <span class="glyphicon" ng-class="{'glyphicon-earphone': $ctrl.user.phoneType != 'MOBILE', 'glyphicon-phone': $ctrl.user.phoneType == 'MOBILE'}"></span>
