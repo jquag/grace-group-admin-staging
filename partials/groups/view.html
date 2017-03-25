@@ -44,8 +44,8 @@
             <div class="col-xs-12 col-sm-6 col-md-5 col-lg-4">
                 <div class="photo-scoped">
                     <div class="extra-space-below profile-image">
-                        <img ng-show="$ctrl.group.leader.imageUrl" class="img-rounded photo-scoped-image-small clickable" ng-src="{{$ctrl.group.leader.imageUrl}}" data-toggle="modal" data-target="#leader-image-{{$ctrl.group.id}}">
-                        <img ng-hide="$ctrl.group.leader.imageUrl" class="img-rounded photo-scoped-image-small" ng-src="{{null | orDefaultImage}}">
+                        <img ng-show="$ctrl.group.leader.imageUrl" class="img-rounded photo-scoped-image photo-scoped-image-small clickable" ng-src="{{$ctrl.group.leader.imageUrl}}" data-toggle="modal" data-target="#leader-image-{{$ctrl.group.id}}">
+                        <img ng-hide="$ctrl.group.leader.imageUrl" class="img-rounded photo-scoped-image photo-scoped-image-small" ng-src="{{null | orDefaultImage}}">
                     </div>
                     <div class="extra-space-below">
                         <div><span>{{$ctrl.group.leader.fullName()}}</span></div>
@@ -63,8 +63,8 @@
             <div ng-if="$ctrl.group.secondaryLeader" class="col-xs-12 col-sm-6 col-md-5 col-lg-4">
                 <div class="photo-scoped">
                     <div class="extra-space-below profile-image">
-                        <img ng-show="$ctrl.group.secondaryLeader.imageUrl" class="img-rounded photo-scoped-image-small clickable" ng-src="{{$ctrl.group.secondaryLeader.imageUrl}}" data-toggle="modal" data-target="#secondary-leader-image-{{$ctrl.group.id}}">
-                        <img ng-hide="$ctrl.group.secondaryLeader.imageUrl" class="img-rounded photo-scoped-image-small" ng-src="{{null | orDefaultImage}}">
+                        <img ng-show="$ctrl.group.secondaryLeader.imageUrl" class="img-rounded photo-scoped-image photo-scoped-image-small clickable" ng-src="{{$ctrl.group.secondaryLeader.imageUrl}}" data-toggle="modal" data-target="#secondary-leader-image-{{$ctrl.group.id}}">
+                        <img ng-hide="$ctrl.group.secondaryLeader.imageUrl" class="img-rounded photo-scoped-image photo-scoped-image-small" ng-src="{{null | orDefaultImage}}">
                     </div>
                     <div>
                         <div><span>{{$ctrl.group.secondaryLeader.fullName()}}</span></div>
@@ -126,6 +126,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body">
+                    <button type="button" class="close extra-space-below" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <div>
                         <img class="img-responsive extra-space-below" ng-src="{{$ctrl.group.leader.imageUrl | orDefaultImage}}">
                     </div>
