@@ -1,0 +1,48 @@
+<div scroll-pos="top">
+    <a class="btn btn-default" ui-sref="groups.details({id: $ctrl.group.id, show: 'reports'})">Back to group</a>
+    <h2>Meeting Report <small style="white-space: nowrap;">{{$ctrl.group.name}}</small></h2>
+    <div class="panel panel-default highlight">
+        <div class="panel-body">
+            <div class="extra-space-below">
+                <div><span class="bigger text-info">{{$ctrl.meeting.time | date:"MM/dd/yyyy hh:mma"}}</span></div>
+                <div><span class="text-info small">Topic:</span> <span>{{$ctrl.meeting.topic}}</span></div>
+                <div ng-show="$ctrl.meeting.comments">
+                    <div class="text-info small">Notes:</div>
+                    <div class="pre-text">
+                        <pre>{{$ctrl.meeting.comments}}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-info">
+        <div class="panel-heading">Prayer Requests</div>
+        <div class="panel-body">
+            <div ng-repeat="request in $ctrl.meeting.prayerRequests" class="pre-text">
+                <pre>{{request}}</pre>
+            </div>
+            <p ng-if="$ctrl.meeting.prayerRequests.length == 0">None</p>
+        </div>
+    </div>
+    <div class="panel panel-info">
+        <div class="panel-heading">Attendance <span class="badge">{{$ctrl.meeting.attendance.length}}</span></div>
+        <div class="panel-body">
+            <label>Members</label>
+            <div class="row">
+                <div ng-repeat="attendee in $ctrl.regularAttendees" class="form-group col-xs-12 col-sm-6">
+                    <input disabled ng-model="attendee.present" type="checkbox"> {{attendee.member.fullName()}}
+                </div>
+            </div>
+            <label>Guests</label>
+            <div ng-repeat="guest in $ctrl.guests" class="panel panel-info compact">
+                <div class="panel-body">
+                    <div class="bigger">{{guest.firstName}} {{guest.lastName}}</div>
+                    <div ng-show="guest.email"><span class="glyphicon glyphicon-envelope"></span> <span>{{guest.email}}</span></div>
+                    <div ng-show="guest.phoneNumber"><span class="glyphicon glyphicon-earphone"></span> <span>{{guest.phoneNumber}}</span></div>
+                </div>
+            </div>
+            <p ng-if="$ctrl.guests.length == 0">None</p>
+        </div>
+    </div>
+    <audit-info model="$ctrl.meeting"></audit-info><br/>
+</div>

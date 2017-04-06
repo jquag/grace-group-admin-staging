@@ -1,36 +1,109 @@
-<div scroll-pos="keep">
-    <a ng-hide="$ctrl.isRootUser()" ui-sref="users.index"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> All users</a>
+<div scroll-pos="top">
+    <a ng-hide="$ctrl.isRootUser()" class="btn btn-default" ui-sref="users.index">All Users</a>
     <h2 ng-show="$ctrl.isRootUser()">Welcome</h2>
     <h2 ng-hide="$ctrl.isRootUser()">User Details</h2>
-    <gg-user highlight user="$ctrl.user" on-edit="$state.go('users.edit', {id: $ctrl.user.id})" show-edit="$root.authorizer.userCanEditUser($root.user, $ctrl.user)"></gg-user>
-    <hr/>
+    <gg-user user="$ctrl.user" highlight
+             on-edit="$state.go('users.edit', {id: $ctrl.user.id})"
+             show-edit="$root.authorizer.userCanEditUser($root.user, $ctrl.user)"
+             allow-image-select="$root.authorizer.userCanEditUser($root.user, $ctrl.user)"
+    ></gg-user>
 
-    <div>
-        <h3>{{$ctrl.isRootUser() ? 'My ' : ''}}Groups</h3>
-        <p ng-show="$ctrl.isRootUser()"><a ui-sref="groups.new" type="button" class="btn btn-info btn-sm" aria-label="add group">
-            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New Group
-        </a></p>
-        <gg-group ng-repeat="group in $ctrl.groups" group="group"
-                  options="{{$root.authorizer.groupPrivilegesString($ctrl.user, group)}}"
-                  on-edit="$state.go('groups.edit', {id: group.id})"
-                  on-delete="$ctrl.deleteGroup(group)"
-                  on-members="$state.go('groups.members.view', {id: group.id})"></gg-group>
-        <p ng-show="$ctrl.groups.length == 0 && $ctrl.isRootUser()">You don't have any groups.</p>
-        <p ng-show="$ctrl.groups.length == 0 && !$ctrl.isRootUser()">There are no groups for this user.</p>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4><a ng-click="$ctrl.showGroups = !$ctrl.showGroups" data-toggle="collapse" data-target="#groups-panel-body">
+                <span ng-show="$ctrl.showGroups" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                <span ng-hide="$ctrl.showGroups" class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                {{$ctrl.isRootUser() ? 'My ' : ''}}Groups</a>
+                <span class="badge">{{$ctrl.groups.length}}</span>
+            </h4>
+            <p ng-show="$ctrl.isRootUser()"><a ui-sref="groups.new" type="button" class="btn btn-info btn-sm" aria-label="add group">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New Group
+            </a></p>
+        </div>
+        <div class="panel-collapse collapse" id="groups-panel-body">
+            <div class="panel-body">
+                <gg-group ng-repeat="group in $ctrl.groups" group="group"
+                          show-edit="$root.authorizer.userCanEditGroup($root.user, group)"
+                          show-delete="$root.authorizer.userCanDeleteGroup($root.user, group)"
+                          show-select="$root.user != null"
+                          on-edit="$state.go('groups.edit', {id: group.id})"
+                          on-delete="$ctrl.deleteGroup(group)"
+                          on-select="$state.go('groups.details', {id: group.id})">
+                </gg-group>
+
+                <p ng-show="$ctrl.groups.length == 0 && $ctrl.isRootUser()">You don't have any groups.</p>
+                <p ng-show="$ctrl.groups.length == 0 && !$ctrl.isRootUser()">There are no groups for this user.</p>
+            </div>
+            <div class="panel-footer">
+                <a ng-click="$ctrl.showGroups = !$ctrl.showGroups" data-toggle="collapse" data-target="#groups-panel-body">
+                    <span class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span>
+                    Hide Groups</a>
+            </div>
+        </div>
     </div>
 
-    <div>
-        <h3>{{$ctrl.isRootUser() ? 'My ' : ''}}Direct Reports</h3>
-        <p><a ng-show="$ctrl.directReports.length > 0" class="btn btn-default sm quick-action" href="{{$ctrl.directReports | mailToAll}}">
-            <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Email Direct Reports
-        </a></p>
-        <gg-user ng-repeat="user in $ctrl.directReports"
-                 user="user"
-                 show-edit="$root.authorizer.userCanEditUser($root.user, user)"
-                 show-select="true"
-                 on-edit="$state.go('users.edit', {id: user.id, returnTo: 'details'})"
-                 on-select="$state.go('users.details', {id: user.id})"></gg-user>
-        <p ng-show="$ctrl.directReports.length == 0 && $ctrl.isRootUser()">You don't have any direct reports.</p>
-        <p ng-show="$ctrl.directReports.length == 0 && !$ctrl.isRootUser()">There are no direct reports for this user.</p>
+    <!--<div>-->
+        <!--<h3>{{$ctrl.isRootUser() ? 'My ' : ''}}Groups</h3>-->
+        <!--<p ng-show="$ctrl.isRootUser()"><a ui-sref="groups.new" type="button" class="btn btn-info btn-sm" aria-label="add group">-->
+            <!--<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New Group-->
+        <!--</a></p>-->
+
+        <!--<gg-group ng-repeat="group in $ctrl.groups" group="group"-->
+                  <!--show-edit="$root.authorizer.userCanEditGroup($root.user, group)"-->
+                  <!--show-delete="$root.authorizer.userCanDeleteGroup($root.user, group)"-->
+                  <!--show-select="$root.user != null"-->
+                  <!--on-edit="$state.go('groups.edit', {id: group.id})"-->
+                  <!--on-delete="$ctrl.deleteGroup(group)"-->
+                  <!--on-select="$state.go('groups.details', {id: group.id})">-->
+        <!--</gg-group>-->
+
+        <!--<p ng-show="$ctrl.groups.length == 0 && $ctrl.isRootUser()">You don't have any groups.</p>-->
+        <!--<p ng-show="$ctrl.groups.length == 0 && !$ctrl.isRootUser()">There are no groups for this user.</p>-->
+    <!--</div>-->
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4><a ng-click="$ctrl.showDirectReports = !$ctrl.showDirectReports" data-toggle="collapse" data-target="#direct-reports-panel-body">
+                <span ng-show="$ctrl.showDirectReports" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                <span ng-hide="$ctrl.showDirectReports" class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                {{$ctrl.isRootUser() ? 'My ' : ''}}Direct Reports</a>
+                <span class="badge">{{$ctrl.directReports.length}}</span>
+            </h4>
+            <p><a ng-show="$ctrl.directReports.length > 0" class="btn btn-default sm quick-action" href="{{$ctrl.directReports | mailToAll}}">
+                <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Email Direct Reports
+            </a></p>
+        </div>
+        <div class="panel-collapse collapse" id="direct-reports-panel-body">
+            <div class="panel-body">
+                <gg-user ng-repeat="user in $ctrl.directReports"
+                         user="user"
+                         show-edit="$root.authorizer.userCanEditUser($root.user, user)"
+                         show-select="true"
+                         on-edit="$state.go('users.edit', {id: user.id, returnTo: 'details'})"
+                         on-select="$state.go('users.details', {id: user.id})"></gg-user>
+                <p ng-show="$ctrl.directReports.length == 0 && $ctrl.isRootUser()">You don't have any direct reports.</p>
+                <p ng-show="$ctrl.directReports.length == 0 && !$ctrl.isRootUser()">There are no direct reports for this user.</p>
+            </div>
+            <div class="panel-footer">
+                <a ng-click="$ctrl.showDirectReports = !$ctrl.showDirectReports" data-toggle="collapse" data-target="#direct-reports-panel-body">
+                    <span class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span>
+                    Hide Direct Reports</a>
+            </div>
+        </div>
     </div>
+
+    <!--<div>-->
+        <!--<h3>{{$ctrl.isRootUser() ? 'My ' : ''}}Direct Reports</h3>-->
+        <!--<p><a ng-show="$ctrl.directReports.length > 0" class="btn btn-default sm quick-action" href="{{$ctrl.directReports | mailToAll}}">-->
+            <!--<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Email Direct Reports-->
+        <!--</a></p>-->
+        <!--<gg-user ng-repeat="user in $ctrl.directReports"-->
+                 <!--user="user"-->
+                 <!--show-edit="$root.authorizer.userCanEditUser($root.user, user)"-->
+                 <!--show-select="true"-->
+                 <!--on-edit="$state.go('users.edit', {id: user.id, returnTo: 'details'})"-->
+                 <!--on-select="$state.go('users.details', {id: user.id})"></gg-user>-->
+        <!--<p ng-show="$ctrl.directReports.length == 0 && $ctrl.isRootUser()">You don't have any direct reports.</p>-->
+        <!--<p ng-show="$ctrl.directReports.length == 0 && !$ctrl.isRootUser()">There are no direct reports for this user.</p>-->
+    <!--</div>-->
 </div>

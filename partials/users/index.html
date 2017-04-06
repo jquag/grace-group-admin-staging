@@ -24,6 +24,7 @@
     <gg-user ng-repeat="user in $ctrl.users"
              user="user"
              show-edit="$root.authorizer.userCanEditUser($root.user, user)"
+             allow-image-select="$root.authorizer.userCanEditUser($root.user, user)"
              show-remove="$root.authorizer.userCanDeleteUser($root.user, user)"
              confirm-remove="true"
              show-select="true"

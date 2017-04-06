@@ -101,10 +101,13 @@
 
 <div ng-hide="$ctrl.loading">
     <gg-group ng-repeat="group in $ctrl.groups" group="group"
-          options="{{$root.authorizer.groupPrivilegesString($root.user, group)}}"
-          on-edit="$ctrl.onEditGroup({group: group})"
-          on-members="$ctrl.onGroupMembers({group: group})"
-          on-delete="$ctrl.deleteGroup(group)"></gg-group>
+              show-edit="$root.authorizer.userCanEditGroup($root.user, group)"
+              show-delete="$root.authorizer.userCanDeleteGroup($root.user, group)"
+              show-select="$root.user != null"
+              on-edit="$ctrl.onEditGroup({group: group})"
+              on-delete="$ctrl.deleteGroup(group)"
+              on-select="$ctrl.onSelectGroup({group: group})"
+    </gg-group>
 
     <p ng-show="$ctrl.totalCount == 0">No groups found.</p>
     <p class="text-danger" ng-show="$ctrl.totalCount > $ctrl.groups.length">

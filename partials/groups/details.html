@@ -1,0 +1,88 @@
+<a class="btn btn-default" ui-sref="groups.index">All Groups</a>
+<div scroll-pos="top">
+    <h3 ng-hide="$ctrl.isRootUser()">Group Details</h3>
+    <gg-group group="$ctrl.group" highlight
+              show-edit="$root.authorizer.userCanEditGroup($root.user, $ctrl.group)"
+              show-delete="$root.authorizer.userCanDeleteGroup($root.user, $ctrl.group)"
+              on-edit="$state.go('groups.edit', {id: $ctrl.group.id})"
+              on-delete="$ctrl.deleteGroup($ctrl.group)">
+    </gg-group>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4>
+                <a ng-click="$ctrl.showMembers = !$ctrl.showMembers" data-toggle="collapse" data-target="#members-panel-body">
+                    <span ng-show="$ctrl.showMembers" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                    <span ng-hide="$ctrl.showMembers" class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span> Members
+                    <span class="badge">{{$ctrl.members.length}}</span>
+                </a>
+            </h4>
+            <button type="button" class="btn btn-info" ng-click="$state.go('groups.members.select', {id: $ctrl.group.id})">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Member
+            </button>
+            <a ng-show="$ctrl.members.length > 0" class="btn btn-default sm quick-action" href="{{$ctrl.members | mailToAll}}">
+                <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Email Members
+            </a>
+        </div>
+        <div class="panel-collapse collapse" id="members-panel-body">
+            <div class="panel-body">
+                <gg-user ng-repeat="user in $ctrl.members" user="user"
+                         show-select="true"
+                         on-select="$state.go('users.details', {id: user.id})"
+                         allow-image-select="$root.authorizer.userCanEditUser($root.user, user)"
+                         compact="true"
+                         show-remove="true"
+                         delete-icon="remove"
+                         on-remove="$ctrl.removeMember(user)"
+                ></gg-user>
+                <p ng-if="$ctrl.members.length == 0">No members</p>
+            </div>
+            <div class="panel-footer">
+                <a ng-click="$ctrl.showMembers = !$ctrl.showMembers" data-toggle="collapse" data-target="#members-panel-body">
+                    <span class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span>
+                    Hide Members</a>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4><a ng-click="$ctrl.showReports = !$ctrl.showReports" data-toggle="collapse" data-target="#reports-panel-body">
+                <span ng-show="$ctrl.showReports" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                <span ng-hide="$ctrl.showReports" class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                Meeting Reports</a>
+            </h4>
+            <button type="button" class="btn btn-info" ng-click="$state.go('meetingReports.new', {groupId: $ctrl.group.id})">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New Report
+            </button>
+        </div>
+        <div class="panel-collapse collapse" id="reports-panel-body">
+            <div class="panel-body">
+                <div ng-repeat="meeting in $ctrl.meetings" class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="extra-space-below">
+                            <div><a ng-click="$root.$state.go('meetingReports.details', {id: meeting.id})" class="clickable bigger text-info">{{meeting.time | date:"MM/dd/yyyy hh:mma"}}</a></div>
+                            <div><span class="text-info small">Topic:</span> <span>{{meeting.topic}}</span></div>
+                            <div><span class="text-info small">Attendance:</span> <span>{{meeting.memberCount()}} member(s), {{meeting.guestCount()}} guest(s)</span></div>
+                            <div ng-show="meeting.comments">
+                                <div class="text-info small">Notes:</div>
+                                <div class="pre-text">
+                                    <pre>{{meeting.comments}}</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p ng-if="$ctrl.meetings.length == 0">No meeting reports</p>
+                <p class="text-danger" ng-show="$ctrl.showMoreMeetingsCount() > 0">
+                    <button class="btn btn-default" ng-click="$ctrl.showMoreMeetings()" promise-btn>Show {{$ctrl.showMoreMeetingsCount()}} more</button>
+                </p>
+            </div>
+            <div class="panel-footer">
+                <a ng-click="$ctrl.showReports = !$ctrl.showReports" data-toggle="collapse" data-target="#reports-panel-body">
+                    <span class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span>
+                    Hide Reports</a>
+            </div>
+        </div>
+    </div>
+</div>

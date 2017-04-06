@@ -1,9 +1,11 @@
-<p><a ng-click="$state.go('groups.members.view', {id: $ctrl.group.id})">
-    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Cancel
-</a></p>
+<div ng-show="$ctrl.group.isFull()" class="alert alert-danger" role="alert">Warning! You are adding members to a full group.</div>
+
+<p><button class="btn btn-primary" ng-click="$state.go('groups.details', {id: $ctrl.group.id, show: 'members'})">
+    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Done
+</button></p>
+
 <div class="row" scroll-pos="top">
     <div class="col-md-6 col-lg-5 col-sm-8">
-        <div ng-show="$ctrl.group.isFull()" class="alert alert-danger" role="alert">Warning! You are adding members to a full group.</div>
         <div class="well">
             <h3>Add Member <span class="small">{{$ctrl.group.name}}</span></h3>
             <form name="form" novalidate ng-submit="$ctrl.createMode ? $ctrl.saveAndAddMember(form) : $ctrl.nameChanged()">
@@ -60,7 +62,7 @@
                     <div ng-repeat="user in $ctrl.users">
                         <div ng-switch="$ctrl.isMember(user)">
                             <gg-user ng-switch-when="true" user="user"
-                                     badge="'Already Member'"
+                                     badge="'Member'"
                                      hide-role></gg-user>
 
                             <gg-user ng-switch-default user="user"
@@ -77,7 +79,7 @@
         </div>
     </div>
 </div>
-<p><a ng-click="$state.go('groups.members.view', {id: $ctrl.group.id})">
-    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Cancel
-</a></p>
+<p><button class="btn btn-primary" ng-click="$state.go('groups.details', {id: $ctrl.group.id, show: 'members'})">
+    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Done
+</button></p>
 

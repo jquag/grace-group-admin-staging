@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div class="panel panel-default" ng-class="{highlight: ($ctrl.highlight == '' || $ctrl.highlight == 'true')}">
     <div class="panel-body">
         <div>
             <div class="row extra-space-below">
@@ -11,13 +11,10 @@
                        data-toggle="tooltip" data-placement="top" title="Email leader(s)">
                         <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
                     </a>
-                    <button class="btn btn-default btn-sm quick-action" ng-show="$ctrl.showEdit()" ng-click="$ctrl.onMembers($ctrl.group)" data-toggle="tooltip" data-placement="top" title="View/Edit Members">
-                        <span class="glyphicon glyphicon-user"></span>
-                    </button>
-                    <button ng-show="$ctrl.showEdit()" ng-click="$ctrl.onEdit($ctrl.group)" type="button" class="btn btn-info btn-sm quick-action" data-toggle="tooltip" data-placement="top" title="Edit Group">
+                    <button ng-show="$ctrl.showEdit" ng-click="$ctrl.onEdit($ctrl.group)" type="button" class="btn btn-info btn-sm quick-action" data-toggle="tooltip" data-placement="top" title="Edit Group">
                         <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                     </button>
-                    <button ng-show="$ctrl.showDelete()" type="button" class="btn btn-danger btn-sm quick-action" data-toggle="modal" data-target="#group-{{$ctrl.group.id}}-delete-confirm" >
+                    <button ng-show="$ctrl.showDelete" type="button" class="btn btn-danger btn-sm quick-action" data-toggle="modal" data-target="#group-{{$ctrl.group.id}}-delete-confirm" >
                         <span class="glyphicon glyphicon-trash" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Delete Group"></span>
                     </button>
                 </div>
@@ -25,7 +22,7 @@
             <div class="row extra-space-below">
                 <div class="col-xs-12">
                     <span ng-show="$ctrl.group.namePending && $root.user" class="text-danger glyphicon glyphicon-exclamation-sign" data-toggle="tooltip" data-placement="top" title="Pending approval"></span>
-                    <span class="h4">{{$ctrl.groupName()}}</span>
+                    <span ng-click="$ctrl.onSelect($ctrl.group)" ng-class="['h4', {clickable: $ctrl.showSelect, 'text-info': $ctrl.showSelect}]">{{$ctrl.groupName()}}</span>
                     <div style="display: inline-block">
                         <span class="label label-default">{{$ctrl.group.category | enumToLabel}}</span>
                         <span ng-show="$ctrl.indicateIfPublic && $ctrl.group.published" class="label label-success">Public</span>
@@ -41,43 +38,19 @@
         </div>
         <div><span class="text-info small">Leader(s):</span></div>
         <div class="row extra-space-below">
-            <div class="col-xs-12 col-sm-6 col-md-5 col-lg-4">
-                <div class="photo-scoped">
-                    <div class="extra-space-below profile-image">
-                        <img ng-show="$ctrl.group.leader.imageUrl" class="img-rounded photo-scoped-image photo-scoped-image-small clickable" ng-src="{{$ctrl.group.leader.imageUrl}}" data-toggle="modal" data-target="#leader-image-{{$ctrl.group.id}}">
-                        <img ng-hide="$ctrl.group.leader.imageUrl" class="img-rounded photo-scoped-image photo-scoped-image-small" ng-src="{{null | orDefaultImage}}">
-                    </div>
-                    <div class="extra-space-below">
-                        <div><span>{{$ctrl.group.leader.fullName()}}</span></div>
-                        <div><span class="glyphicon glyphicon-envelope"></span> <span>{{$ctrl.group.leader.email}}</span></div>
-                        <div ng-show="$ctrl.group.leader.phoneNumber">
-                            <span class="glyphicon" ng-class="{'glyphicon-earphone': $ctrl.group.leader.phoneType != 'MOBILE', 'glyphicon-phone': $ctrl.group.leader.phoneType == 'MOBILE'}"></span>
-                            <span>{{$ctrl.group.leader.phoneNumber}}</span>
-                        </div>
-                        <div ng-show="$ctrl.group.leader.facebookLink"><img class="img-icon" src="images/FB-f-Logo__blue_29.png">
-                            <a ng-href="{{$ctrl.group.leader.facebookLinkFull()}}" target="_blank">{{$ctrl.group.leader.facebookLinkShort()}}</a>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-xs-12" ng-class="{'col-sm-6': $ctrl.group.secondaryLeader, 'col-md-5': $ctrl.group.secondaryLeader, 'col-lg-4': $ctrl.group.secondaryLeader}">
+                <gg-user user="$ctrl.group.leader"
+                         compact="true"
+                         no-border="true"
+                         hide-role="true"
+                ></gg-user>
             </div>
             <div ng-if="$ctrl.group.secondaryLeader" class="col-xs-12 col-sm-6 col-md-5 col-lg-4">
-                <div class="photo-scoped">
-                    <div class="extra-space-below profile-image">
-                        <img ng-show="$ctrl.group.secondaryLeader.imageUrl" class="img-rounded photo-scoped-image photo-scoped-image-small clickable" ng-src="{{$ctrl.group.secondaryLeader.imageUrl}}" data-toggle="modal" data-target="#secondary-leader-image-{{$ctrl.group.id}}">
-                        <img ng-hide="$ctrl.group.secondaryLeader.imageUrl" class="img-rounded photo-scoped-image photo-scoped-image-small" ng-src="{{null | orDefaultImage}}">
-                    </div>
-                    <div>
-                        <div><span>{{$ctrl.group.secondaryLeader.fullName()}}</span></div>
-                        <div><span class="glyphicon glyphicon-envelope"></span> <span>{{$ctrl.group.secondaryLeader.email}}</span></div>
-                        <div ng-show="$ctrl.group.secondaryLeader.phoneNumber">
-                            <span class="glyphicon" ng-class="{'glyphicon-earphone': $ctrl.group.secondaryLeader.phoneType != 'MOBILE', 'glyphicon-phone': $ctrl.group.secondaryLeader.phoneType == 'MOBILE'}"></span>
-                            <span>{{$ctrl.group.secondaryLeader.phoneNumber}}</span>
-                        </div>
-                        <div ng-show="$ctrl.group.secondaryLeader.facebookLink"><img class="img-icon" src="images/FB-f-Logo__blue_29.png">
-                            <a ng-href="{{$ctrl.group.secondaryLeader.facebookLinkFull()}}" target="_blank">{{$ctrl.group.secondaryLeader.facebookLinkShort()}}</a>
-                        </div>
-                    </div>
-                </div>
+                <gg-user user="$ctrl.group.secondaryLeader"
+                         compact="true"
+                         no-border="true"
+                         hide-role="true"
+                ></gg-user>
             </div>
         </div>
         <div class="row">
@@ -107,8 +80,8 @@
                         <span ng-show="$ctrl.onGraceWestCampus()">Grace Church<br/></span>
                         <span ng-show="$ctrl.onGraceEastCampus()">Grace Church (East Campus)<br/></span>
                         <span ng-show="!$ctrl.onGraceEastCampus() && !$ctrl.onGraceWestCampus() && $ctrl.group.address.locationName">{{$ctrl.group.address.locationName}}<br/></span>
-                        <span ng-show="$ctrl.showStreetAddress()">{{$ctrl.group.address.line1}}<br></span>
-                        <span ng-show="$ctrl.group.address.line2 && $ctrl.showStreetAddress()">{{$ctrl.group.address.line2}}<br></span>
+                        <span ng-if="$ctrl.showStreetAddress()">{{$ctrl.group.address.line1}}<br></span>
+                        <span ng-if="$ctrl.group.address.line2 && $ctrl.showStreetAddress()">{{$ctrl.group.address.line2}}<br></span>
                         {{$ctrl.group.address.city}}, {{$ctrl.group.address.state}} {{$ctrl.group.address.zip}}<br>
                         <span ng-show="$ctrl.group.address.room">Room: {{$ctrl.group.address.room}}<br></span>
                     </address>
