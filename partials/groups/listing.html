@@ -106,7 +106,7 @@
               show-select="$root.user != null"
               on-edit="$ctrl.onEditGroup({group: group})"
               on-delete="$ctrl.deleteGroup(group)"
-              on-select="$ctrl.onSelectGroup({group: group})"
+              on-select="$ctrl.onSelectGroup({group: group})">
     </gg-group>
 
     <p ng-show="$ctrl.totalCount == 0">No groups found.</p>
