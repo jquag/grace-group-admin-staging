@@ -63,7 +63,7 @@
                         <div class="extra-space-below">
                             <div><a ng-click="$root.$state.go('meetingReports.details', {id: meeting.id})" class="clickable bigger text-info">{{meeting.time | date:"MM/dd/yyyy hh:mma"}}</a></div>
                             <div><span class="text-info small">Topic:</span> <span>{{meeting.topic}}</span></div>
-                            <div><span class="text-info small">Attendance:</span> <span>{{meeting.memberCount()}} member(s), {{meeting.guestCount()}} guest(s)</span></div>
+                            <div><span class="text-info small">Attendance:</span> <span>{{meeting.memberCount($ctrl.members)}} member(s), {{meeting.guestCount($ctrl.members)}} guest(s)</span></div>
                             <div ng-show="meeting.comments">
                                 <div class="text-info small">Notes:</div>
                                 <div class="pre-text">

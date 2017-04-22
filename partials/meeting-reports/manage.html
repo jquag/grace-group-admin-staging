@@ -1,0 +1,87 @@
+<div scroll-pos="top">
+    <h3>{{$ctrl.meeting.id ? 'Edit' : 'New' }} Meeting Report <span class="small">{{$ctrl.group.name}}</span></h3>
+    <div class="row">
+        <div class="col-md-8 col-lg-7 col-sm-10">
+            <div class="well">
+                <form name="form" ng-submit="$ctrl.save(form)" novalidate promise-btn>
+                    <div class="form-group form-inline" ng-class="{'has-error': form.mDate.$invalid}">
+                        <label>Date *</label>
+                        <input type="date" name="mDate" class="form-control" ng-model="$ctrl.date" required placeholder="yyyy-MM-dd"/>
+                        <input type="time" name="mTime" class="form-control" ng-model="$ctrl.time" required placeholder="HH:mm"/>
+                        <div class="text-danger" ng-show="form.$submitted || form.mDate.$touched">
+                            <div ng-show="form.mDate.$error.required">Date Required</div>
+                            <div ng-show="form.mDate.$error.date">Invalid format</div>
+                        </div>
+                        <div class="text-danger" ng-show="form.$submitted || form.mTime.$touched">
+                            <div ng-show="form.mTime.$error.required">Time Required</div>
+                            <div ng-show="form.mTime.$error.time">Invalid format</div>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-class="{'has-error': form.mTopic.$invalid}">
+                        <label>Topic *</label>
+                        <input type="text" name="mTopic" class="form-control" ng-model="$ctrl.meeting.topic" required/>
+                        <div class="text-danger" ng-show="form.$submitted || form.mTopic.$touched">
+                            <div ng-show="form.mTopic.$error.required">Required</div>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-class="{'has-error': form.mComments.$invalid}">
+                        <label>Meeting Notes</label>
+                        <textarea name="mComments" rows="5" maxlength="375" class="form-control" ng-model="$ctrl.meeting.comments" ng-trim="false"></textarea>
+                        <span class="small text-muted">Characters remaining: {{375 - $ctrl.meeting.comments.length}}</span>
+                    </div>
+                    <div class="panel panel-info">
+                        <div class="panel-heading">Prayer Requests</div>
+                        <div class="panel-body">
+                            <div class="form-group" ng-repeat="prayer in $ctrl.prayerRequests">
+                                <textarea ng-model="prayer.txt" rows="2" maxlength="375" class="form-control prayer-request" ng-trim="false"></textarea>
+                                <button ng-if="$index != 0" type="button" class="btn btn-danger btn-xs" ng-click="$ctrl.prayerRequests.splice($index, 1)"><span class="glyphicon glyphicon-trash"></span></button>
+                                <button type="button" class="btn btn-default btn-xs" ng-click="prayer.txt = ''">Clear</button>
+                                <span class="small text-muted pull-right">Characters remaining: {{375 - prayer.txt.length}}</span>
+                            </div>
+                            <button type="button" ng-click="$ctrl.addPrayerRequest()" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span> More</button>
+                        </div>
+                    </div>
+                    <div class="panel panel-info">
+                        <div class="panel-heading">Attendance <span class="badge">{{$ctrl.attendeeCount()}}</span></div>
+                        <div class="panel-body">
+                            <label>Members</label>
+                            <div class="row">
+                                <div ng-repeat="attendee in $ctrl.regularAttendees" class="form-group col-xs-12 col-sm-6">
+                                    <input ng-model="attendee.present" type="checkbox"> {{attendee.member.fullName()}}
+                                </div>
+                            </div>
+                            <label>Guests</label>
+                            <div ng-repeat="guest in $ctrl.guests" class="panel panel-info">
+                                <div class="panel-body">
+                                    <div class="form-group form-inline" ng-class="{'has-error': form['gFirstName'+guest.id].$invalid || form['gLastName'+guest.id].$invalid}">
+                                        <label>Name *</label>
+                                        <input placeholder="First name" type="text" name="{{'gFirstName'+guest.id}}" class="form-control" ng-model="guest.firstName" required/>
+                                        <input placeholder="Last name" type="text" name="{{'gLastName'+guest.id}}" class="form-control" ng-model="guest.lastName" required/>
+                                        <div class="text-danger" ng-show="form.$submitted || form['gFirstName'+guest.id].$touched || form['gLastName'+guest.id].$touched">
+                                            <div ng-show="form['gFirstName'+guest.id].$error.required || form['gLastName'+guest.id].$error.required">First and last name required</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-inline">
+                                        <label>Email</label>
+                                        <input type="email" name="{{'gEmail'+guest.id}}" class="form-control" ng-model="guest.email"/>
+                                        <div class="text-danger" ng-show="form.$submitted || form['gEmail'+guest.id].$touched">
+                                            <div ng-show="form['gEmail'+guest.id].$error.email">Invalid email</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-inline">
+                                        <label>Phone number</label>
+                                        <input type="text" name="{{'gPhoneNumber'+guest.id}}" class="form-control" ng-model="guest.phoneNumber"/>
+                                    </div>
+                                    <button type="button" class="btn btn-danger btn-xs" ng-click="$ctrl.guests.splice($index, 1)"><span class="glyphicon glyphicon-trash"></span></button>
+                                </div>
+                            </div>
+                            <button type="button" ng-click="$ctrl.addGuest()" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span> Add</button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-default" ng-click="$root.$state.go('groups.details', {id: $ctrl.group.id, show: 'reports'})">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,5 +1,5 @@
 <div class="row" ng-show="$ctrl.group">
-    <div class="col-md-7 col-lg-6 col-sm-9">
+    <div class="col-md-8 col-lg-7 col-sm-11">
         <div class="well">
             <form name="form" ng-submit="$ctrl.save(form)" novalidate promise-btn>
                 <div class="form-group" ng-class="{'has-error': form.gName.$invalid}">
@@ -42,6 +42,17 @@
                     </select>
                     <div class="text-danger" ng-show="form.$submitted || form.gSecondaryLeader.$touched">
                         <div ng-show="form.gSecondaryLeader.$error.notEqualTo">Can't be the same as leader</div>
+                    </div>
+                </div>
+                <div ng-class="{'has-error': form.gDivisionLeader.$invalid}" class="form-group">
+                    <label>Division leader for this group<span ng-show="$ctrl.requireDivisionLeader()"> *</span></label>
+                    <select class="form-control" name="gDivisionLeader" ng-model="$ctrl.group.divisionLeaderId"
+                            ng-options="divisionLeader.id as divisionLeader.fullName() for divisionLeader in $ctrl.divisionLeaders"
+                            ng-required="$ctrl.requireDivisionLeader()">
+                        <option value=""></option>
+                    </select>
+                    <div class="text-danger" ng-show="form.$submitted || form.gDivisionLeader.$touched">
+                        <div ng-show="form.gDivisionLeader.$error.required">Required</div>
                     </div>
                 </div>
                 <!-- schedule -->

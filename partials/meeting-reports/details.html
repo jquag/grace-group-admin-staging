@@ -1,5 +1,6 @@
 <div scroll-pos="top">
     <a class="btn btn-default" ui-sref="groups.details({id: $ctrl.group.id, show: 'reports'})">Back to group</a>
+    <a class="btn btn-info" ui-sref="meetingReports.edit({id: $ctrl.meeting.id})"><span class="glyphicon glyphicon-pencil"></span> Edit Meeting</a>
     <h2>Meeting Report <small style="white-space: nowrap;">{{$ctrl.group.name}}</small></h2>
     <div class="panel panel-default highlight">
         <div class="panel-body">
