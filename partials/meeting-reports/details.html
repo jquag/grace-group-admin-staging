@@ -1,6 +1,6 @@
 <div scroll-pos="top">
     <a class="btn btn-default" ui-sref="groups.details({id: $ctrl.group.id, show: 'reports'})">Back to group</a>
-    <a class="btn btn-info" ui-sref="meetingReports.edit({id: $ctrl.meeting.id})"><span class="glyphicon glyphicon-pencil"></span> Edit Meeting</a>
+    <a ng-if="$root.authorizer.canEditMeetingForGroup($root.user, $ctrl.group)" class="btn btn-info" ui-sref="meetingReports.edit({id: $ctrl.meeting.id})"><span class="glyphicon glyphicon-pencil"></span> Edit Meeting</a>
     <h2>Meeting Report <small style="white-space: nowrap;">{{$ctrl.group.name}}</small></h2>
     <div class="panel panel-default highlight">
         <div class="panel-body">
@@ -31,7 +31,8 @@
             <label>Members</label>
             <div class="row">
                 <div ng-repeat="attendee in $ctrl.regularAttendees" class="form-group col-xs-12 col-sm-6">
-                    <input disabled ng-model="attendee.present" type="checkbox"> {{attendee.member.fullName()}}
+                    <span ng-if="attendee.present"><span class="glyphicon glyphicon-check"></span> {{attendee.member.fullName()}}</span>
+                    <span ng-if="!attendee.present"><span class="glyphicon glyphicon-unchecked text-muted"></span> {{attendee.member.fullName()}}</span>
                 </div>
             </div>
             <label>Guests</label>
