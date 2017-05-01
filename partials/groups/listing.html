@@ -104,6 +104,7 @@
               show-edit="$root.authorizer.userCanEditGroup($root.user, group)"
               show-delete="$root.authorizer.userCanDeleteGroup($root.user, group)"
               show-select="$root.user != null"
+              show-division-leader="$root.user != null"
               on-edit="$ctrl.onEditGroup({group: group})"
               on-delete="$ctrl.deleteGroup(group)"
               on-select="$ctrl.onSelectGroup({group: group})">

@@ -2,6 +2,7 @@
 <div scroll-pos="top">
     <h3 ng-hide="$ctrl.isRootUser()">Group Details</h3>
     <gg-group group="$ctrl.group" highlight
+              show-division-leader="true"
               show-edit="$root.authorizer.userCanEditGroup($root.user, $ctrl.group)"
               show-delete="$root.authorizer.userCanDeleteGroup($root.user, $ctrl.group)"
               on-edit="$state.go('groups.edit', {id: $ctrl.group.id})"
@@ -11,18 +12,18 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <h4>
-                <a ng-click="$ctrl.showMembers = !$ctrl.showMembers" data-toggle="collapse" data-target="#members-panel-body">
+                <a ng-click="$ctrl.showMembers = !$ctrl.showMembers" class="quick-action toggle" data-toggle="collapse" data-target="#members-panel-body">
                     <span ng-show="$ctrl.showMembers" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                     <span ng-hide="$ctrl.showMembers" class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span> Members
                     <span class="badge">{{$ctrl.members.length}}</span>
                 </a>
+                <button ng-if="$root.authorizer.userCanEditGroup($root.user, $ctrl.group)" type="button" class="btn btn-sm btn-info quick-action" ng-click="$state.go('groups.members.select', {id: $ctrl.group.id})">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                </button>
+                <a ng-show="$ctrl.members.length > 0" class="btn btn-sm btn-default quick-action" href="{{$ctrl.members | mailToAll}}">
+                    <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                </a>
             </h4>
-            <button ng-if="$root.authorizer.userCanEditGroup($root.user, $ctrl.group)" type="button" class="btn btn-info" ng-click="$state.go('groups.members.select', {id: $ctrl.group.id})">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Member
-            </button>
-            <a ng-show="$ctrl.members.length > 0" class="btn btn-default sm quick-action" href="{{$ctrl.members | mailToAll}}">
-                <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Email Members
-            </a>
         </div>
         <div class="panel-collapse collapse" id="members-panel-body">
             <div class="panel-body">
@@ -47,14 +48,14 @@
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h4><a ng-click="$ctrl.showReports = !$ctrl.showReports" data-toggle="collapse" data-target="#reports-panel-body">
+            <h4><a class="quick-action toggle" ng-click="$ctrl.showReports = !$ctrl.showReports" data-toggle="collapse" data-target="#reports-panel-body">
                 <span ng-show="$ctrl.showReports" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                 <span ng-hide="$ctrl.showReports" class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                 Meeting Reports</a>
+                <button ng-if="$root.authorizer.canEditMeetingForGroup($root.user, $ctrl.group)" type="button" class="btn btn-sm btn-info" ng-click="$state.go('meetingReports.new', {groupId: $ctrl.group.id})">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                </button>
             </h4>
-            <button ng-if="$root.authorizer.canEditMeetingForGroup($root.user, $ctrl.group)" type="button" class="btn btn-info" ng-click="$state.go('meetingReports.new', {groupId: $ctrl.group.id})">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New Report
-            </button>
         </div>
         <div class="panel-collapse collapse" id="reports-panel-body">
             <div class="panel-body">

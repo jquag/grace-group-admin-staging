@@ -45,15 +45,11 @@
                     </div>
                 </div>
                 <div ng-class="{'has-error': form.gDivisionLeader.$invalid}" class="form-group">
-                    <label>Division leader for this group<span ng-show="$ctrl.requireDivisionLeader()"> *</span></label>
+                    <label>Division leader for this group</label>
                     <select class="form-control" name="gDivisionLeader" ng-model="$ctrl.group.divisionLeaderId"
-                            ng-options="divisionLeader.id as divisionLeader.fullName() for divisionLeader in $ctrl.divisionLeaders"
-                            ng-required="$ctrl.requireDivisionLeader()">
+                            ng-options="divisionLeader.id as divisionLeader.fullName() for divisionLeader in $ctrl.divisionLeaders" >
                         <option value=""></option>
                     </select>
-                    <div class="text-danger" ng-show="form.$submitted || form.gDivisionLeader.$touched">
-                        <div ng-show="form.gDivisionLeader.$error.required">Required</div>
-                    </div>
                 </div>
                 <!-- schedule -->
                 <div class="panel panel-info">

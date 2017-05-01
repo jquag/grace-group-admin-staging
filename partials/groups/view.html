@@ -37,20 +37,27 @@
             </div>
         </div>
         <div><span class="text-info small">Leader(s):</span></div>
-        <div class="row extra-space-below">
-            <div class="col-xs-12" ng-class="{'col-sm-6': $ctrl.group.secondaryLeader, 'col-md-5': $ctrl.group.secondaryLeader, 'col-lg-4': $ctrl.group.secondaryLeader}">
-                <gg-user user="$ctrl.group.leader"
-                         compact="true"
-                         no-border="true"
-                         hide-role="true"
-                ></gg-user>
+        <div class="extra-space-below">
+            <div class="row">
+                <div class="col-xs-12" ng-class="{'col-sm-6': $ctrl.group.secondaryLeader, 'col-md-5': $ctrl.group.secondaryLeader, 'col-lg-4': $ctrl.group.secondaryLeader}">
+                    <gg-user user="$ctrl.group.leader"
+                             compact="true"
+                             no-border="true"
+                             hide-role="true"
+                    ></gg-user>
+                </div>
+                <div ng-if="$ctrl.group.secondaryLeader" class="col-xs-12 col-sm-6 col-md-5 col-lg-4">
+                    <gg-user user="$ctrl.group.secondaryLeader"
+                             compact="true"
+                             no-border="true"
+                             hide-role="true"
+                    ></gg-user>
+                </div>
             </div>
-            <div ng-if="$ctrl.group.secondaryLeader" class="col-xs-12 col-sm-6 col-md-5 col-lg-4">
-                <gg-user user="$ctrl.group.secondaryLeader"
-                         compact="true"
-                         no-border="true"
-                         hide-role="true"
-                ></gg-user>
+            <div class="row" ng-if="$ctrl.group.divisionLeader && $ctrl.showDivisionLeader">
+                <div class="col-xs-12">
+                    <div><span class="text-info small">Division Leader:</span> <span>{{$ctrl.group.divisionLeader.fullName()}}</span></div>
+                </div>
             </div>
         </div>
         <div class="row">
@@ -86,6 +93,12 @@
                         <span ng-show="$ctrl.group.address.room">Room: {{$ctrl.group.address.room}}<br></span>
                     </address>
                 </div>
+            </div>
+        </div>
+        <div class="row extra-space-below" ng-if="$ctrl.group.meetingInstructions">
+            <div class="col-xs-12 col-md-11 col-lg-9">
+                <span class="text-info small">Meeting Instructions:</span>
+                <div class="pre-text"><pre ng-show="$ctrl.group.meetingInstructions">{{$ctrl.group.meetingInstructions}}</pre></div>
             </div>
         </div>
         <audit-info model="$ctrl.group"></audit-info>
