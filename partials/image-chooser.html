@@ -17,6 +17,7 @@
                             <img ng-show="imageFile" class="img-responsive" ngf-src='imageFile'>
                             <img ng-show="clearImage" class="img-responsive" ng-src='{{null | orDefaultImage}}'>
                         </div>
+                        <input type="file">
                         <input type="file" class="btn btn-default" ngf-pattern="'image/*'" ng-model="imageFile" ngf-select="selected()" ngf-fix-orientation="true"
                              ngf-model-invalid="invalid" ngf-accept="'image/*'" ngf-max-size="3MB" ngf-capture="'other'">Select
                         </input>
