@@ -17,9 +17,9 @@
                             <img ng-show="imageFile" class="img-responsive" ngf-src='imageFile'>
                             <img ng-show="clearImage" class="img-responsive" ng-src='{{null | orDefaultImage}}'>
                         </div>
-                        <div class="btn btn-default" ngf-pattern="'image/*'" ng-model="imageFile" ngf-select="selected()" ngf-fix-orientation="true"
+                        <input type="file" class="btn btn-default" ngf-pattern="'image/*'" ng-model="imageFile" ngf-select="selected()" ngf-fix-orientation="true"
                              ngf-model-invalid="invalid" ngf-accept="'image/*'" ngf-max-size="3MB" ngf-capture="'other'">Select
-                        </div>
+                        </input>
                         <button ng-show="currentImage" type="button" class="btn btn-default" ng-click="none()">None</button>
                         <p class="text-danger" ng-show="invalid.$error == 'maxSize'">File too large. Max is 3MB.</p>
                         <p class="text-danger" ng-show="invalid.$error == 'pattern'">Invalid file type.</p>
