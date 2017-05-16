@@ -51,7 +51,7 @@
                 {{$ctrl.isRootUser() ? 'My ' : ''}}Direct Reports
                 <span class="badge">{{$ctrl.directReports.length}}</span>
             </a>
-                <a ng-show="$ctrl.directReports.length > 0" class="btn btn-default quick-action" href="{{$ctrl.directReports | bccMailToAll}}">
+                <a ng-show="$ctrl.directReports.length > 0" class="btn btn-default quick-action" href="{{$ctrl.directReports | mailToAll}}">
                     <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
                 </a>
             </h4>

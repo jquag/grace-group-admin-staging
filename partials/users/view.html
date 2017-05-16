@@ -2,10 +2,18 @@
     <div class="panel-body">
         <div class="photo-scoped">
             <div class="extra-space-below profile-image">
-                <span class="glyphicon glyphicon-pencil icon-on-image" ng-show="$ctrl.allowImageSelect"></span>
-                <img ng-show="$ctrl.allowImageSelect" class="img-rounded clickable photo-scoped-image" ng-class="{'photo-scoped-image-small': $ctrl.compact}" ng-src="{{$ctrl.user.imageUrl | orDefaultImage}}" data-toggle="modal" data-target="#user-{{$ctrl.user.id}}-image-chooser">
-                <img ng-show="!$ctrl.allowImageSelect && $ctrl.user.imageUrl" class="img-rounded clickable photo-scoped-image" ng-class="{'photo-scoped-image-small': $ctrl.compact}" ng-src="{{$ctrl.user.imageUrl | orDefaultImage}}" data-toggle="modal" data-target="#user-{{$ctrl.user.id}}-image">
-                <img ng-show="!$ctrl.allowImageSelect && !$ctrl.user.imageUrl" class="img-rounded photo-scoped-image" ng-class="{'photo-scoped-image-small': $ctrl.compact}" ng-src="{{$ctrl.user.imageUrl | orDefaultImage}}">
+                <span class="glyphicon glyphicon-pencil icon-on-image" ng-if="$ctrl.allowImageSelect"></span>
+                <img ng-if="$ctrl.allowImageSelect" class="img-rounded clickable photo-scoped-image"
+                     ng-class="{'photo-scoped-image-small': $ctrl.compact}"
+                     ng-src="{{$ctrl.user.imageUrl | orDefaultImage}}"
+                     data-toggle="modal" data-target="#user-{{$ctrl.guid}}-image-chooser">
+                <img ng-if="!$ctrl.allowImageSelect && $ctrl.user.imageUrl" class="img-rounded clickable photo-scoped-image"
+                     ng-class="{'photo-scoped-image-small': $ctrl.compact}"
+                     ng-src="{{$ctrl.user.imageUrl | orDefaultImage}}"
+                     data-toggle="modal" data-target="#user-{{$ctrl.guid}}-image">
+                <img ng-if="!$ctrl.allowImageSelect && !$ctrl.user.imageUrl" class="img-rounded photo-scoped-image"
+                     ng-class="{'photo-scoped-image-small': $ctrl.compact}"
+                     ng-src="{{$ctrl.user.imageUrl | orDefaultImage}}">
             </div>
             <div class="extra-space-below">
                 <div ng-show="$ctrl.showEdit || $ctrl.showRemove" class="extra-space-below">
@@ -54,19 +62,19 @@
 
     <image-chooser
             title="{{$ctrl.user.fullName()}}"
-            modal-id="user-{{$ctrl.user.id}}-image-chooser"
+            modal-id="user-{{$ctrl.guid}}-image-chooser"
             current-image="$ctrl.user.imageUrl"
             on-save-image="$ctrl.uploadImage(file)"
             on-clear-image="$ctrl.clearImage()">
     </image-chooser>
 
-    <div class="modal fade" tabindex="-1" role="dialog" id="user-{{$ctrl.user.id}}-image" data-keyboard="true">
+    <div class="modal fade" tabindex="-1" role="dialog" id="user-{{$ctrl.guid}}-image" data-keyboard="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body">
                     <button type="button" class="close extra-space-below" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <div>
-                        <img class="img-responsive extra-space-below" ng-src="{{$ctrl.user.imageUrl | orDefaultImage}}">
+                        <img class="img-responsive extra-space-below center-block" ng-src="{{$ctrl.user.imageUrl | orDefaultImage}}">
                     </div>
                     <div class="text-center">{{$ctrl.user.fullName()}}</div>
                 </div>
