@@ -303,9 +303,10 @@
                     <label>Childcare *</label>
                     <select class="form-control" ng-model="$ctrl.group.childcareType" name="gChildcareType" required>
                         <option value=""></option>
+                        <option value="GRACE_KIDS_OPEN">Grace Kids open</option>
                         <option value="CHILDCARE_PROVIDED">Childcare provided</option>
                         <option value="CHILDREN_WELCOME">Children welcome</option>
-                        <option value="NO_CHILDREN">No children</option>
+                        <option value="CHILDCARE_NOT_AVAILABLE">Childcare not available</option>
                     </select>
                     <div class="text-danger" ng-show="form.$submitted || form.gChildcareType.$touched">
                         <div ng-show="form.gChildcareType.$error.required">Required</div>
