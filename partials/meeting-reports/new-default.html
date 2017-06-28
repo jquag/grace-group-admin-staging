@@ -1,0 +1,24 @@
+<div scroll-pos="top">
+    <h3>New Standard Meeting Report <span class="small">{{$ctrl.group.name}}</span></h3>
+    <div class="alert alert-danger" role="alert">Note: You must click &quot;Save&quot; to submit this report.</div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="extra-space-below">
+                <div>
+                    <span class="bigger text-info">{{$ctrl.meeting.time | date:"MM/dd/yyyy hh:mma"}}</span>
+                </div>
+                <div><span class="text-info small">Topic:</span> <span>{{$ctrl.meeting.topic}}</span></div>
+                <div><span class="text-info small">Attendance:</span> <span>{{$ctrl.meeting.memberCount($ctrl.members)}} member(s), {{$ctrl.meeting.guestCount($ctrl.members)}} guest(s)</span></div>
+                <div ng-show="$ctrl.meeting.comments">
+                    <div class="text-info small">Notes:</div>
+                    <div class="pre-text">
+                        <pre>{{$ctrl.meeting.comments}}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button type="button" class="btn btn-default" ng-click="$root.$state.go('groups.details', {id: $ctrl.group.id, show: 'reports'})">Cancel</button>
+    <button ng-click="$state.go('meetingReports.new', {groupId: $ctrl.group.id, dateTime: $ctrl.meeting.time, default: true})" type="button" class="btn btn-default">Make Changes</button>
+    <button ng-click="$ctrl.save()" type="button" class="btn btn-primary">Save</button>
+</div>
