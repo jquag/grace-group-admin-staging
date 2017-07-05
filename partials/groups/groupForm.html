@@ -4,7 +4,8 @@
             <form name="form" ng-submit="$ctrl.save(form)" novalidate promise-btn>
                 <div class="form-group" ng-class="{'has-error': form.gName.$invalid}">
                     <label>Group name *</label>
-                    <input type="text" name="gName" class="form-control" ng-model="$ctrl.group.name" required/>
+                    <input type="text" name="gName" class="form-control" ng-model="$ctrl.group.name" required maxlength="100"/>
+                    <span class="small text-muted">Characters remaining: {{100 - $ctrl.group.name.length}}</span>
                     <div class="text-danger" ng-show="form.$submitted || form.gName.$touched">
                         <div ng-show="form.gName.$error.required">Required</div>
                     </div>

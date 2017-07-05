@@ -3,28 +3,29 @@
     <div class="row">
         <div class="col-md-8 col-lg-7 col-sm-10">
             <div class="well">
-                <form name="form" ng-submit="$ctrl.save(form)" novalidate promise-btn>
-                    <div class="form-group form-inline" ng-class="{'has-error': form.mDate.$invalid}">
+                <form name="$ctrl.form" ng-submit="$ctrl.save($ctrl.form)" novalidate promise-btn>
+                    <div class="form-group form-inline" ng-class="{'has-error': $ctrl.form.mDate.$invalid}">
                         <label>Date *</label>
-                        <input type="date" name="mDate" class="form-control" ng-model="$ctrl.date" required placeholder="yyyy-MM-dd"/>
+                        <input type="date" name="mDate" class="form-control" ng-model="$ctrl.date" required placeholder="yyyy-MM-dd" server-validation/>
                         <input type="time" name="mTime" class="form-control" ng-model="$ctrl.time" required placeholder="HH:mm"/>
-                        <div class="text-danger" ng-show="form.$submitted || form.mDate.$touched">
-                            <div ng-show="form.mDate.$error.required">Date Required</div>
-                            <div ng-show="form.mDate.$error.date">Invalid format</div>
+                        <div class="text-danger" ng-show="$ctrl.form.$submitted || $ctrl.form.mDate.$touched">
+                            <div ng-show="$ctrl.form.mDate.$error.required">Date Required</div>
+                            <div ng-show="$ctrl.form.mDate.$error.date">Invalid format</div>
+                            <div ng-show="$ctrl.form.mDate.$error.serverValidation">{{$ctrl.form.mDate.$error.serverError}}</div>
                         </div>
-                        <div class="text-danger" ng-show="form.$submitted || form.mTime.$touched">
-                            <div ng-show="form.mTime.$error.required">Time Required</div>
-                            <div ng-show="form.mTime.$error.time">Invalid format</div>
+                        <div class="text-danger" ng-show="$ctrl.form.$submitted || $ctrl.form.mTime.$touched">
+                            <div ng-show="$ctrl.form.mTime.$error.required">Time Required</div>
+                            <div ng-show="$ctrl.form.mTime.$error.time">Invalid format</div>
                         </div>
                     </div>
-                    <div class="form-group" ng-class="{'has-error': form.mTopic.$invalid}">
+                    <div class="form-group" ng-class="{'has-error': $ctrl.form.mTopic.$invalid}">
                         <label>Topic *</label>
                         <input type="text" name="mTopic" class="form-control" ng-model="$ctrl.meeting.topic" required/>
-                        <div class="text-danger" ng-show="form.$submitted || form.mTopic.$touched">
-                            <div ng-show="form.mTopic.$error.required">Required</div>
+                        <div class="text-danger" ng-show="$ctrl.form.$submitted || $ctrl.form.mTopic.$touched">
+                            <div ng-show="$ctrl.form.mTopic.$error.required">Required</div>
                         </div>
                     </div>
-                    <div class="form-group" ng-class="{'has-error': form.mComments.$invalid}">
+                    <div class="form-group" ng-class="{'has-error': $ctrl.form.mComments.$invalid}">
                         <label>Meeting Notes</label>
                         <textarea name="mComments" rows="5" maxlength="375" class="form-control" ng-model="$ctrl.meeting.comments" ng-trim="false"></textarea>
                         <span class="small text-muted">Characters remaining: {{375 - $ctrl.meeting.comments.length}}</span>
@@ -53,19 +54,19 @@
                             <label>Guests</label>
                             <div ng-repeat="guest in $ctrl.guests" class="panel panel-info">
                                 <div class="panel-body">
-                                    <div class="form-group form-inline" ng-class="{'has-error': form['gFirstName'+guest.id].$invalid || form['gLastName'+guest.id].$invalid}">
+                                    <div class="form-group form-inline" ng-class="{'has-error': $ctrl.form['gFirstName'+guest.id].$invalid || $ctrl.form['gLastName'+guest.id].$invalid}">
                                         <label>Name *</label>
                                         <input placeholder="First name" type="text" name="{{'gFirstName'+guest.id}}" class="form-control" ng-model="guest.firstName" required/>
                                         <input placeholder="Last name" type="text" name="{{'gLastName'+guest.id}}" class="form-control" ng-model="guest.lastName" required/>
-                                        <div class="text-danger" ng-show="form.$submitted || form['gFirstName'+guest.id].$touched || form['gLastName'+guest.id].$touched">
-                                            <div ng-show="form['gFirstName'+guest.id].$error.required || form['gLastName'+guest.id].$error.required">First and last name required</div>
+                                        <div class="text-danger" ng-show="$ctrl.form.$submitted || $ctrl.form['gFirstName'+guest.id].$touched || $ctrl.form['gLastName'+guest.id].$touched">
+                                            <div ng-show="$ctrl.form['gFirstName'+guest.id].$error.required || $ctrl.form['gLastName'+guest.id].$error.required">First and last name required</div>
                                         </div>
                                     </div>
                                     <div class="form-group form-inline">
                                         <label>Email</label>
                                         <input type="email" name="{{'gEmail'+guest.id}}" class="form-control" ng-model="guest.email"/>
-                                        <div class="text-danger" ng-show="form.$submitted || form['gEmail'+guest.id].$touched">
-                                            <div ng-show="form['gEmail'+guest.id].$error.email">Invalid email</div>
+                                        <div class="text-danger" ng-show="$ctrl.form.$submitted || $ctrl.form['gEmail'+guest.id].$touched">
+                                            <div ng-show="$ctrl.form['gEmail'+guest.id].$error.email">Invalid email</div>
                                         </div>
                                     </div>
                                     <div class="form-group form-inline">
