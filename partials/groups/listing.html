@@ -101,7 +101,7 @@
 </div>
 
 <div ng-hide="$ctrl.loading">
-    <gg-group ng-repeat="group in $ctrl.groups" group="group"
+    <gg-group ng-repeat="group in $ctrl.groups track by group.id" group="group"
               show-edit="$root.authorizer.userCanEditGroup($root.user, group)"
               show-delete="$root.authorizer.userCanDeleteGroup($root.user, group)"
               show-select="$root.user != null"
