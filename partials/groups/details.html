@@ -27,7 +27,7 @@
         </div>
         <div class="panel-collapse collapse" id="members-panel-body">
             <div class="panel-body">
-                <gg-user ng-repeat="user in $ctrl.members" user="user"
+                <gg-user ng-repeat="user in $ctrl.members track by user.id" user="user"
                          show-select="true"
                          on-select="$state.go('users.details', {id: user.id})"
                          allow-image-select="$root.authorizer.userCanEditUser($root.user, user)"
@@ -59,7 +59,7 @@
         </div>
         <div class="panel-collapse collapse" id="reports-panel-body">
             <div class="panel-body">
-                <div ng-repeat="meeting in $ctrl.meetings" class="panel panel-default">
+                <div ng-repeat="meeting in $ctrl.meetings track by meeting.id" class="panel panel-default">
                     <div class="panel-body">
                         <div class="row extra-space-below">
                             <div class="col-xs-12">

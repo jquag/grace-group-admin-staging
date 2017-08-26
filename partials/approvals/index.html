@@ -1,7 +1,7 @@
 <div scroll-pos="keep">
     <h3>Groups Pending Approval</h3>
     <p ng-show="$ctrl.groups.length == 0">None</p>
-    <div ng-repeat="group in $ctrl.groups">
+    <div ng-repeat="group in $ctrl.groups track by group.id">
         <div class="panel panel-default">
             <div class="panel-body">
                 <h4>{{group.name}}</h4>
