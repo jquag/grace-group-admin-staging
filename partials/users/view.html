@@ -56,29 +56,29 @@
             <audit-info ng-hide="$ctrl.compact" model="$ctrl.user"></audit-info>
         </div>
     </div>
-    <confirm-box title="Delete user" on-yes="$ctrl.onRemove()" modal-id="user-{{$ctrl.user.id}}-delete-confirm">
-        <p>Are you sure you want to delete this user?</p>
-    </confirm-box>
+    <!--<confirm-box title="Delete user" on-yes="$ctrl.onRemove()" modal-id="user-{{$ctrl.user.id}}-delete-confirm">-->
+        <!--<p>Are you sure you want to delete this user?</p>-->
+    <!--</confirm-box>-->
 
-    <image-chooser
-            title="{{$ctrl.user.fullName()}}"
-            modal-id="user-{{$ctrl.guid}}-image-chooser"
-            current-image="$ctrl.user.imageUrl"
-            on-save-image="$ctrl.uploadImage(file)"
-            on-clear-image="$ctrl.clearImage()">
-    </image-chooser>
+    <!--<image-chooser-->
+            <!--title="{{$ctrl.user.fullName()}}"-->
+            <!--modal-id="user-{{$ctrl.guid}}-image-chooser"-->
+            <!--current-image="$ctrl.user.imageUrl"-->
+            <!--on-save-image="$ctrl.uploadImage(file)"-->
+            <!--on-clear-image="$ctrl.clearImage()">-->
+    <!--</image-chooser>-->
 
-    <div class="modal fade" tabindex="-1" role="dialog" id="user-{{$ctrl.guid}}-image" data-keyboard="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <button type="button" class="close extra-space-below" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <div>
-                        <img class="img-responsive extra-space-below center-block" ng-src="{{$ctrl.user.imageUrl | orDefaultImage}}">
-                    </div>
-                    <div class="text-center">{{$ctrl.user.fullName()}}</div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!--<div class="modal fade" tabindex="-1" role="dialog" id="user-{{$ctrl.guid}}-image" data-keyboard="true">-->
+        <!--<div class="modal-dialog" role="document">-->
+            <!--<div class="modal-content">-->
+                <!--<div class="modal-body">-->
+                    <!--<button type="button" class="close extra-space-below" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+                    <!--<div>-->
+                        <!--<img class="img-responsive extra-space-below center-block" ng-src="{{$ctrl.user.imageUrl | orDefaultImage}}">-->
+                    <!--</div>-->
+                    <!--<div class="text-center">{{$ctrl.user.fullName()}}</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
 </div>
