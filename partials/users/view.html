@@ -63,7 +63,7 @@
     <image-chooser
             title="{{$ctrl.user.fullName()}}"
             modal-id="user-{{$ctrl.guid}}-image-chooser"
-            current-image="$ctrl.user.imageUrl"
+            current-image="null"
             on-save-image="$ctrl.uploadImage(file)"
             on-clear-image="$ctrl.clearImage()">
     </image-chooser>
@@ -74,7 +74,7 @@
                 <div class="modal-body">
                     <button type="button" class="close extra-space-below" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <div>
-                        <img class="img-responsive extra-space-below center-block" ng-src="{{$ctrl.user.imageUrl | orDefaultImage}}">
+                        <img class="img-responsive extra-space-below center-block" ng-src="{{null | orDefaultImage}}">
                     </div>
                     <div class="text-center">{{$ctrl.user.fullName()}}</div>
                 </div>
