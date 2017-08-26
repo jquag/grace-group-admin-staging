@@ -40,18 +40,18 @@
         <div class="extra-space-below">
             <div class="row">
                 <div class="col-xs-12" ng-class="{'col-sm-6': $ctrl.group.secondaryLeader, 'col-md-5': $ctrl.group.secondaryLeader, 'col-lg-4': $ctrl.group.secondaryLeader}">
-                    <!--<gg-user user="$ctrl.group.leader"-->
-                             <!--compact="true"-->
-                             <!--no-border="true"-->
-                             <!--hide-role="true"-->
-                    <!--&gt;</gg-user>-->
+                    <gg-user user="$ctrl.group.leader"
+                             compact="true"
+                             no-border="true"
+                             hide-role="true"
+                    ></gg-user>
                 </div>
                 <div ng-if="$ctrl.group.secondaryLeader" class="col-xs-12 col-sm-6 col-md-5 col-lg-4">
-                    <!--<gg-user user="$ctrl.group.secondaryLeader"-->
-                             <!--compact="true"-->
-                             <!--no-border="true"-->
-                             <!--hide-role="true"-->
-                    <!--&gt;</gg-user>-->
+                    <gg-user user="$ctrl.group.secondaryLeader"
+                             compact="true"
+                             no-border="true"
+                             hide-role="true"
+                    ></gg-user>
                 </div>
             </div>
             <div class="row" ng-if="$ctrl.group.divisionLeader && $ctrl.showDivisionLeader">
