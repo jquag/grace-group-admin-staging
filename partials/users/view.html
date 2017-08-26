@@ -1,20 +1,20 @@
 <div class="panel panel-default" ng-class="{highlight: ($ctrl.highlight == '' || $ctrl.highlight == 'true'), compact: $ctrl.compact, 'no-border': $ctrl.noBorder}">
     <div class="panel-body">
         <div class="photo-scoped">
-            <!--<div class="extra-space-below profile-image">-->
-                <!--<span class="glyphicon glyphicon-pencil icon-on-image" ng-if="$ctrl.allowImageSelect"></span>-->
-                <!--<img ng-if="$ctrl.allowImageSelect" class="img-rounded clickable photo-scoped-image"-->
-                     <!--ng-class="{'photo-scoped-image-small': $ctrl.compact}"-->
-                     <!--ng-src="{{$ctrl.user.imageUrl | orDefaultImage}}"-->
-                     <!--data-toggle="modal" data-target="#user-{{$ctrl.guid}}-image-chooser">-->
-                <!--<img ng-if="!$ctrl.allowImageSelect && $ctrl.user.imageUrl" class="img-rounded clickable photo-scoped-image"-->
-                     <!--ng-class="{'photo-scoped-image-small': $ctrl.compact}"-->
-                     <!--ng-src="{{$ctrl.user.imageUrl | orDefaultImage}}"-->
-                     <!--data-toggle="modal" data-target="#user-{{$ctrl.guid}}-image">-->
-                <!--<img ng-if="!$ctrl.allowImageSelect && !$ctrl.user.imageUrl" class="img-rounded photo-scoped-image"-->
-                     <!--ng-class="{'photo-scoped-image-small': $ctrl.compact}"-->
-                     <!--ng-src="{{$ctrl.user.imageUrl | orDefaultImage}}">-->
-            <!--</div>-->
+            <div class="extra-space-below profile-image">
+                <span class="glyphicon glyphicon-pencil icon-on-image" ng-if="$ctrl.allowImageSelect"></span>
+                <img ng-if="$ctrl.allowImageSelect" class="img-rounded clickable photo-scoped-image"
+                     ng-class="{'photo-scoped-image-small': $ctrl.compact}"
+                     ng-src="{{$ctrl.user.imageUrl | orDefaultImage}}"
+                     data-toggle="modal" data-target="#user-{{$ctrl.guid}}-image-chooser">
+                <img ng-if="!$ctrl.allowImageSelect && $ctrl.user.imageUrl" class="img-rounded clickable photo-scoped-image"
+                     ng-class="{'photo-scoped-image-small': $ctrl.compact}"
+                     ng-src="{{$ctrl.user.imageUrl | orDefaultImage}}"
+                     data-toggle="modal" data-target="#user-{{$ctrl.guid}}-image">
+                <img ng-if="!$ctrl.allowImageSelect && !$ctrl.user.imageUrl" class="img-rounded photo-scoped-image"
+                     ng-class="{'photo-scoped-image-small': $ctrl.compact}"
+                     ng-src="{{$ctrl.user.imageUrl | orDefaultImage}}">
+            </div>
             <div class="extra-space-below">
                 <div ng-show="$ctrl.showEdit || $ctrl.showRemove" class="extra-space-below">
                         <span class="quick-action" ng-show="$ctrl.showEdit">
