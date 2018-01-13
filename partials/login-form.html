@@ -1,8 +1,9 @@
 <br/>
 <div class="row" scroll-pos="top">
     <div class="col-md-6 col-lg-5 col-sm-8">
+        <div ng-if="$ctrl.afterReset" class="alert alert-success" role="alert">Your password has been reset. Please login with your new password.</div>
         <div class="well">
-            <form ng-submit="$ctrl.login()" novalidate>
+            <form ng-submit="$ctrl.login()" class="extra-space-below" novalidate>
                 <div class="text-danger" ng-show="$ctrl.invalidLogin">
                     <div>Invalid Login</div>
                     <br/>
@@ -17,6 +18,9 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Login</button>
             </form>
+            <div>
+                <a ui-sref="forgotPassword">Forgot Password</a>
+            </div>
         </div>
     </div>
 </div>

@@ -68,7 +68,11 @@
                 <div><span class="text-info small">Next Meeting:</span> <span>{{::$ctrl.group.schedule.nextMeeting}}</span></div>
             </div>
             <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
-                <div><span class="text-info small">Childcare:</span> <span>{{::$ctrl.group.childcareType | enumToLabel}}</span></div>
+                <div><span class="text-info small">Childcare:</span>
+                    <span ng-if="$ctrl.isGraceKids()"><a target="_blank" href="https://www.gracestl.org/ministries/gracekids/">Grace Kids Open</a></span>
+                    <a ng-if="$ctrl.isEtc()" target="_blank" href="https://www.gracestl.org/ministries/gracekids/childcare/">Provided by Registering Here</a>
+                    <span ng-if="!$ctrl.isGraceKids() && !$ctrl.isEtc()">{{::$ctrl.group.childcareType | enumToLabel}}</span>
+                </div>
                 <div><span class="text-info small">Ages:</span> <span>{{::$ctrl.ageDisplay()}}</span></div>
                 <div><span class="text-info small">Gender preference:</span> <span>{{::$ctrl.group.genderPreference | enumToLabel}}</span></div>
                 <div><span class="text-info small">Status:</span> <span>{{::$ctrl.group.maritalStatus | enumToLabel}}</span></div>

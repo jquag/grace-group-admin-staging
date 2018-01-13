@@ -23,6 +23,7 @@
                 <a ng-show="$ctrl.members.length > 0" class="btn btn-sm btn-default quick-action" href="{{$ctrl.members | mailToAll}}">
                     <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
                 </a>
+                <email-copy-button ng-show="$ctrl.members.length > 0" email-addresses="$ctrl.memberEmailAddresses"></email-copy-button>
             </h4>
         </div>
         <div class="panel-collapse collapse" id="members-panel-body">
@@ -102,4 +103,3 @@
         </div>
     </div>
 </div>
-

@@ -14,12 +14,12 @@
                     <label>Category *</label>
                     <select class="form-control" name="gCategory" ng-model="$ctrl.group.category" required>
                         <option value=""></option>
-                        <option value="ACTIVITY_GROUP">Activity group</option>
-                        <option value="CLASS">Class</option>
-                        <option value="COMMUNITY_GROUP">Community group</option>
-                        <option value="PRAYER_GROUP">Prayer group</option>
-                        <option value="SERVING_GROUP">Serving group</option>
-                        <option value="SUPPORT_RECOVERY_GROUP">Support recovery group</option>
+                        <option value="ACTIVITY_GROUP">{{"ACTIVITY_GROUP" | enumToLabel}}</option>
+                        <option value="CLASS">{{"CLASS" | enumToLabel}}</option>
+                        <option value="COMMUNITY_GROUP">{{"COMMUNITY_GROUP" | enumToLabel}}</option>
+                        <option value="PRAYER_GROUP">{{"PRAYER_GROUP" | enumToLabel}}</option>
+                        <option value="SERVING_GROUP">{{"SERVING_GROUP" | enumToLabel}}</option>
+                        <option value="SUPPORT_RECOVERY_GROUP">{{"SUPPORT_RECOVERY_GROUP" | enumToLabel}}</option>
                     </select>
                     <div class="text-danger" ng-show="form.$submitted || form.gCategory.$touched">
                         <div ng-show="form.gCategory.$error.required">Required</div>
@@ -56,22 +56,6 @@
                 <div class="panel panel-info">
                     <div id="schedule" class="panel-heading">Schedule</div>
                     <div class="panel-body">
-                        <div class="form-group" ng-class="{'has-error': form.gDay.$invalid}">
-                            <label>Day of the week *</label>
-                            <select class="form-control" name="gDay" ng-model="$ctrl.group.schedule.dayOfWeek" required>
-                                <option value=""></option>
-                                <option value="SUNDAY">Sunday</option>
-                                <option value="MONDAY">Monday</option>
-                                <option value="TUESDAY">Tuesday</option>
-                                <option value="WEDNESDAY">Wednesday</option>
-                                <option value="THURSDAY">Thursday</option>
-                                <option value="FRIDAY">Friday</option>
-                                <option value="SATURDAY">Saturday</option>
-                            </select>
-                            <div class="text-danger" ng-show="form.$submitted || form.gDay.$touched">
-                                <div ng-show="form.gDay.$error.required">Required</div>
-                            </div>
-                        </div>
                         <div class="form-group" ng-class="{'has-error': form.gFrequency.$invalid}">
                             <label>Frequency of meetings *</label>
                             <select class="form-control" ng-model="$ctrl.group.schedule.frequency" name="gFrequency" required>
@@ -89,6 +73,23 @@
                             </select>
                             <div class="text-danger" ng-show="form.$submitted || form.gFrequency.$touched">
                                 <div ng-show="form.gFrequency.$error.required">Required</div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-class="{'has-error': form.gDay.$invalid}">
+                            <label>Day of the week *</label>
+                            <select class="form-control" name="gDay" ng-model="$ctrl.group.schedule.dayOfWeek" ng-required="$ctrl.group.schedule.frequency != 'AS_NEEDED'">
+                                <option ng-if="$ctrl.group.schedule.frequency == 'AS_NEEDED'" value="">As needed</option>
+                                <option ng-if="$ctrl.group.schedule.frequency != 'AS_NEEDED'" value=""></option>
+                                <option value="SUNDAY">Sunday</option>
+                                <option value="MONDAY">Monday</option>
+                                <option value="TUESDAY">Tuesday</option>
+                                <option value="WEDNESDAY">Wednesday</option>
+                                <option value="THURSDAY">Thursday</option>
+                                <option value="FRIDAY">Friday</option>
+                                <option value="SATURDAY">Saturday</option>
+                            </select>
+                            <div class="text-danger" ng-show="form.$submitted || form.gDay.$touched">
+                                <div ng-show="form.gDay.$error.required">Required</div>
                             </div>
                         </div>
                         <div ng-hide="$ctrl.group.schedule.frequency == 'AS_NEEDED'">

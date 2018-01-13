@@ -5,10 +5,8 @@
         </a>
     </h3>
 
-    <p ng-show="$root.authorizer.canDownloadGroups($root.user)"><a ng-click="$ctrl.download()"><span class="glyphicon glyphicon-download"></span> Download all groups</a></p>
-
     <grace-group-listing
-            limit="200"
+            limit="50" no-results-message="No groups found."
             on-edit-group="$state.go('groups.edit', {id: group.id})"
             on-select-group="$state.go('groups.details', {id: group.id})"
             on-group-members="$state.go('groups.members.view', {id: group.id})">

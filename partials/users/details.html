@@ -48,7 +48,7 @@
             <h4><a ng-click="$ctrl.showDirectReports = !$ctrl.showDirectReports" class="quick-action toggle" data-toggle="collapse" data-target="#direct-reports-panel-body">
                 <span ng-show="$ctrl.showDirectReports" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                 <span ng-hide="$ctrl.showDirectReports" class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-                {{$ctrl.isRootUser() ? 'My ' : ''}}Direct Reports
+                Leaders Under {{$ctrl.isRootUser() ? 'My ' : "User's"}} Care
                 <span class="badge">{{$ctrl.directReports.length}}</span>
             </a>
                 <a ng-show="$ctrl.directReports.length > 0" class="btn btn-default quick-action" href="{{$ctrl.directReports | mailToAll}}">
@@ -64,8 +64,8 @@
                          show-select="true"
                          on-edit="$state.go('users.edit', {id: user.id, returnTo: 'details'})"
                          on-select="$state.go('users.details', {id: user.id})"></gg-user>
-                <p ng-show="$ctrl.directReports.length == 0 && $ctrl.isRootUser()">You don't have any direct reports.</p>
-                <p ng-show="$ctrl.directReports.length == 0 && !$ctrl.isRootUser()">There are no direct reports for this user.</p>
+                <p ng-show="$ctrl.directReports.length == 0 && $ctrl.isRootUser()">You don't have any leaders under your care.</p>
+                <p ng-show="$ctrl.directReports.length == 0 && !$ctrl.isRootUser()">This user has no leaders under their care.</p>
             </div>
             <div class="panel-footer">
                 <a ng-click="$ctrl.showDirectReports = !$ctrl.showDirectReports" data-toggle="collapse" data-target="#direct-reports-panel-body">

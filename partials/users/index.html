@@ -5,7 +5,7 @@
         </a>
     </h3>
     <div class="well">
-        <form class="form-inline" ng-submit="$ctrl.search()" promise-btn>
+        <form class="form-inline extra-space-below" ng-submit="$ctrl.search()" promise-btn>
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="first name" ng-model="$ctrl.searchFirstNameText">
             </div>
@@ -13,14 +13,33 @@
                 <input type="text" class="form-control" placeholder="last name" ng-model="$ctrl.searchLastNameText">
             </div>
             <div class="form-group">
+                <select class="form-control" ng-model="$ctrl.searchRole">
+                    <option value="">All Roles</option>
+                    <option value="ADMIN,PASTOR,DIVISION_DIRECTOR,DIVISION_LEADER,GROUP_LEADER">All Leader Roles</option>
+                    <option value="invalid" disabled>---</option>
+                    <option value="ADMIN">{{"ADMIN" | enumToLabel}}</option>
+                    <option value="PASTOR">{{"PASTOR" | enumToLabel}}</option>
+                    <option value="DIVISION_DIRECTOR">{{"DIVISION_DIRECTOR" | enumToLabel}}</option>
+                    <option value="DIVISION_LEADER">{{"DIVISION_LEADER" | enumToLabel}}</option>
+                    <option value="GROUP_LEADER">{{"GROUP_LEADER" | enumToLabel}}</option>
+                    <option value="CONTACT">{{"CONTACT" | enumToLabel}}</option>
+                </select>
+            </div>
+            <div class="form-group">
                 <button type="submit" class="btn btn-info btn-sm" aria-label="search">Search</button>
                 <a type="button" class="btn btn-default btn-sm" aria-label="clear" ng-click="$ctrl.clearSearch()">Clear</a>
             </div>
-            <div class="form-group"><span ng-show="$ctrl.isFiltered" class="label label-primary">Filtered</span><span class="text-muted"> Count:</span> {{$ctrl.totalCount}}</div>
         </form>
+        <div>
+            <span ng-show="$ctrl.isFiltered" class="label label-primary">Filtered</span><span class="text-muted"> Count:</span>
+            {{$ctrl.totalCount}}
+            <span class="indented" ng-show="$root.authorizer.canDownloadUsers($root.user)"><a ng-click="$ctrl.download()"><span class="glyphicon glyphicon-download"></span> Download</a></span>
+        </div>
+    </div>
+    <div>
+        <email-copy-button email-addresses="$ctrl.emailAddresses"></email-copy-button>
     </div>
     <br/>
-
     <gg-user ng-repeat="user in $ctrl.users"
              user="user"
              show-edit="$root.authorizer.userCanEditUser($root.user, user)"
@@ -36,5 +55,6 @@
 
     <p class="text-danger" ng-show="$ctrl.totalCount > $ctrl.users.length">
         <button class="btn btn-default" ng-click="$ctrl.showMore()" promise-btn>Show {{$ctrl.showMoreCount()}} more</button>
+        <button class="btn btn-default" ng-click="$ctrl.showAll()" promise-btn>Show all</button>
     </p>
 </div>

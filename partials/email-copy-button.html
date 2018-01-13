@@ -1,0 +1,31 @@
+<button class="btn btn-default quick-action" data-toggle="modal" data-target="#copy-email-modal{{$ctrl.index}}" >
+    <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
+    Email Addresses
+    <span class="badge">{{$ctrl.emailAddresses.length}}</span>
+</button>
+<div class="modal fade" tabindex="-1" role="dialog" id="copy-email-modal{{$ctrl.index}}" data-keyboard="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Copy Email Addresses</h4>
+            </div>
+            <div class="modal-body text-center">
+                <button class="btn btn-sm btn-default quick-action" ng-click="$ctrl.copyEmail(',')">
+                    <span class="text-primary">
+                        <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
+                        Comma-separated<br/>
+                        <small class="text-muted">one@mail.com,two@mail.com...</small>
+                    </span>
+                </button>
+                <button class="btn btn-sm btn-default quick-action" ng-click="$ctrl.copyEmail(';')">
+                    <span class="text-primary">
+                        <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
+                        Semicolon-separated<br/>
+                        <small class="text-muted">one@mail.com;two@mail.com...</small>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

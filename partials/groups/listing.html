@@ -3,10 +3,11 @@
         <h3 class="panel-title" ng-click="$ctrl.showCriteria = !$ctrl.showCriteria" data-toggle="collapse" data-target="#search-container">
             <span ng-hide="$ctrl.showCriteria" class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
             <span ng-show="$ctrl.showCriteria" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-            Search Criteria
+            <span ng-show="$ctrl.showCriteria">Hide Filter</span>
+            <span ng-hide="$ctrl.showCriteria">Click Here to Add a Filter to the Results</span>
         </h3>
     </div>
-    <div id="search-container" class="panel-collapse collapse">
+    <div id="search-container" class="panel-collapse collapse in">
         <div class="panel-body">
             <form class="form" ng-submit="$ctrl.search()" promise-btn>
                 <div class="form-group form-inline">
@@ -14,12 +15,12 @@
                     <select class="form-control" ng-model="$ctrl.searchCriteria.category">
                         <option value="">All</option>
                         <option value="invalid" disabled>---</option>
-                        <option value="ACTIVITY_GROUP">Activity group</option>
-                        <option value="CLASS">Class</option>
-                        <option value="COMMUNITY_GROUP">Community group</option>
-                        <option value="PRAYER_GROUP">Prayer group</option>
-                        <option value="SERVING_GROUP">Serving group</option>
-                        <option value="SUPPORT_RECOVERY_GROUP">Support recovery group</option>
+                        <option value="ACTIVITY_GROUP">{{"ACTIVITY_GROUP" | enumToLabel}}</option>
+                        <option value="CLASS">{{"CLASS" | enumToLabel}}</option>
+                        <option value="COMMUNITY_GROUP">{{"COMMUNITY_GROUP" | enumToLabel}}</option>
+                        <option value="PRAYER_GROUP">{{"PRAYER_GROUP" | enumToLabel}}</option>
+                        <option value="SERVING_GROUP">{{"SERVING_GROUP" | enumToLabel}}</option>
+                        <option value="SUPPORT_RECOVERY_GROUP">{{"SUPPORT_RECOVERY_GROUP" | enumToLabel}}</option>
                     </select>
                     <label>Keyword</label>
                     <input type="text" class="form-control" ng-model="$ctrl.searchCriteria.keyWord">
@@ -90,14 +91,13 @@
         </div>
     </div>
     <div class="panel-footer">
-        <div ng-show="$ctrl.isFiltered">Results: <span class="label label-warning">Filtered</span> <a ng-click="$ctrl.clear()">Clear</a></div>
-        <div ng-hide="$ctrl.isFiltered">Results: <span class="label label-primary">All</span></div>
+        <div>
+            <span ng-show="$ctrl.isFiltered" class="label label-warning">Filtered</span>
+            Count: {{$ctrl.totalCount}}
+            <a class="indented btn btn-sm btn-default" ng-show="$ctrl.isFiltered" ng-click="$ctrl.clear()">Clear</a>
+            <a ng-show="$root.authorizer.canDownloadGroups($root.user)" class="btn btn-sm btn-default indented" ng-click="$ctrl.download()"><span class="glyphicon glyphicon-download"></span> Download</a>
+        </div>
     </div>
-</div>
-
-<div>
-    <label>Total count:</label>
-    <span class="label" ng-class="{'label-primary': !$ctrl.isFiltered, 'label-warning': $ctrl.isFiltered}">{{$ctrl.totalCount}}</span>
 </div>
 
 <div ng-hide="$ctrl.loading">
@@ -111,9 +111,11 @@
               on-select="$ctrl.onSelectGroup({group: group})">
     </gg-group>
 
-    <p ng-show="$ctrl.totalCount == 0">No groups found.</p>
+    <p ng-show="$ctrl.totalCount == 0 && $ctrl.noResultsMessage !== undefined">{{$ctrl.noResultsMessage}}</p>
+    <p ng-show="$ctrl.totalCount == 0 && $ctrl.noResultsMessage === undefined">No groups found.</p>
     <p class="text-danger" ng-show="$ctrl.totalCount > $ctrl.groups.length">
         <button class="btn btn-default" ng-click="$ctrl.showMore()" promise-btn>Show {{$ctrl.showMoreCount()}} more</button>
+        <button class="btn btn-default" ng-click="$ctrl.showAll()" promise-btn>Show all</button>
     </p>
 </div>
 <div ng-show="$ctrl.loading">

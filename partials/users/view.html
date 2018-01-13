@@ -36,7 +36,7 @@
                     <span ng-show="!$ctrl.compact && $ctrl.user.admin" class="text-info glyphicon glyphicon-certificate" aria-hidden="true"></span>
                     <span class="badge">{{$ctrl.badge}}</span>
                 </div>
-                <div ng-show="$ctrl.user.email"><span class="glyphicon glyphicon-envelope"></span> <span>{{$ctrl.user.email}}</span></div>
+                <div ng-show="$ctrl.user.email"><a href="mailto:{{$ctrl.user.email}}"><span class="glyphicon glyphicon-envelope"></span> <span>{{$ctrl.user.email}}</span></a></div>
                 <div ng-show="$ctrl.user.facebookLink"><img class="img-icon" src="images/FB-f-Logo__blue_29.png">
                     <a ng-href="{{$ctrl.user.facebookLinkFull()}}" target="_blank">{{$ctrl.user.facebookLinkShort()}}</a>
                 </div>
